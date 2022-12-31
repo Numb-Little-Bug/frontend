@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # frontend
 The frontend of the project
 =======
@@ -103,4 +102,3 @@ pnpm build
 ## License
 
 [MIT © Vben-2020](./LICENSE)
->>>>>>> b166196 (init commit)
