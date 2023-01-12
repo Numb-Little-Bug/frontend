@@ -3,13 +3,13 @@ import type { AppRouteModule } from '/@/router/types'
 import { LAYOUT } from '/@/router/constant'
 import { t } from '/@/hooks/web/useI18n'
 
-const setup: AppRouteModule = {
+const site: AppRouteModule = {
   path: '/site',
   name: 'SiteDemo',
   component: LAYOUT,
   redirect: '/site/index',
   meta: {
-    orderNo: 90000,
+    orderNo: 20000,
     hideChildrenInMenu: true,
     icon: 'whh:paintroll',
     title: t('routes.demo.site.page'),
@@ -17,7 +17,7 @@ const setup: AppRouteModule = {
   children: [
     {
       path: 'index',
-      name: 'SetupDemoPage',
+      name: 'SiteDemoPage',
       component: () => import('/@/views/siteside/index.vue'),
       meta: {
         title: t('routes.demo.site.page'),
@@ -28,4 +28,4 @@ const setup: AppRouteModule = {
   ],
 }
 
-export default setup
+export default site
