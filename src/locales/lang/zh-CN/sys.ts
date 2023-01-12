@@ -84,7 +84,7 @@ export default {
     policyPlaceholder: '勾选后才能注册',
     diffPwd: '两次输入密码不一致',
 
-    userName: '账号',
+    userName: '用户名',
     password: '密码',
     confirmPassword: '确认密码',
     email: '邮箱',

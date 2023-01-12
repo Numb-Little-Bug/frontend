@@ -1,5 +1,5 @@
 // Interface data format used to return a unified format
-import { ResultEnum } from '/@/enums/httpEnum';
+import { ResultEnum } from '/@/enums/httpEnum'
 
 export function resultSuccess<T = Recordable>(result: T, { message = 'ok' } = {}) {
   return {
@@ -16,7 +16,7 @@ export function resultPageSuccess<T = any>(
   list: T[],
   { message = 'ok' } = {},
 ) {
-  const pageData = pagination(page, pageSize, list);
+  const pageData = pagination(page, pageSize, list)
 
   return {
     ...resultSuccess({
@@ -40,10 +40,10 @@ export function resultError(
 }
 
 export function pagination<T = any>(pageNo: number, pageSize: number, array: T[]): T[] {
-  const offset = (pageNo - 1) * Number(pageSize);
+  const offset = (pageNo - 1) * Number(pageSize)
   return offset + Number(pageSize) >= array.length
     ? array.slice(offset, array.length)
-    : array.slice(offset, offset + Number(pageSize));
+    : array.slice(offset, offset + Number(pageSize))
 }
 
 export interface requestParams {
@@ -58,5 +58,5 @@ export interface requestParams {
  *
  */
 export function getRequestToken({ headers }: requestParams): string | undefined {
-  return headers?.authorization;
+  return headers?.authorization
 }

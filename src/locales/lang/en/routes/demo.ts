@@ -153,6 +153,9 @@ export default {
   setup: {
     page: 'Intro page',
   },
+  site: {
+    page: 'Site side',
+  },
   system: {
     moduleName: 'System management',
 
