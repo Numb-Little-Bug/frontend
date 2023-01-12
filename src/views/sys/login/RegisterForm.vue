@@ -100,5 +100,6 @@
     const data = await validForm()
     if (!data) return
     console.log(data)
+    //TODO: 在这里写注册逻辑, 发送ajax
   }
 </script>
