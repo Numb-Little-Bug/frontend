@@ -3,29 +3,29 @@ import type { AppRouteModule } from '/@/router/types'
 import { LAYOUT } from '/@/router/constant'
 import { t } from '/@/hooks/web/useI18n'
 
-const site: AppRouteModule = {
-  path: '/site',
-  name: 'SiteDemo',
+const siteside: AppRouteModule = {
+  path: '/siteside',
+  name: 'SitesideDemo',
   component: LAYOUT,
-  redirect: '/site/index',
+  redirect: '/siteside/index',
   meta: {
-    orderNo: 20000,
+    orderNo: 11,
     hideChildrenInMenu: true,
-    icon: 'whh:paintroll',
-    title: t('routes.demo.site.page'),
+    icon: 'uim:airplay',
+    title: t('routes.demo.siteside.page'),
   },
   children: [
     {
       path: 'index',
-      name: 'SiteDemoPage',
+      name: 'SitesideDemoPage',
       component: () => import('/@/views/siteside/index.vue'),
       meta: {
-        title: t('routes.demo.site.page'),
-        icon: 'whh:paintroll',
+        title: t('routes.demo.siteside.page'),
+        icon: 'uim:airplay',
         hideMenu: true,
       },
     },
   ],
 }
 
-export default site
+export default siteside

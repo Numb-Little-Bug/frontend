@@ -149,8 +149,21 @@ export default {
   setup: {
     page: '引导页',
   },
-  site: {
+  siteside: {
     page: '现场侧',
+  },
+  statistics: {
+    StatisticsDemo: '统计数据',
+    table: '统计记录',
+    chart: '图表记录',
+  },
+  todo: {
+    list: '待办操作单',
+  },
+  actionfile: {
+    Actionfile: '操作单',
+    add: '添加操作单',
+    template: '操作单模板',
   },
   system: {
     moduleName: '系统管理',
