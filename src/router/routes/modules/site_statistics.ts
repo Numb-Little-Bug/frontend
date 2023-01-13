@@ -3,11 +3,11 @@ import type { AppRouteModule } from '/@/router/types'
 import { LAYOUT } from '/@/router/constant'
 import { t } from '/@/hooks/web/useI18n'
 
-const statistics: AppRouteModule = {
-  path: '/statistics',
-  name: 'StatisticsDemo',
+const site_statistics: AppRouteModule = {
+  path: '/site_statistics',
+  name: 'SiteStatisticsDemo',
   component: LAYOUT,
-  redirect: '/statistics/chart',
+  redirect: '/site_statistics/chart',
   meta: {
     orderNo: 13,
     icon: 'wpf:statistics',
@@ -17,7 +17,7 @@ const statistics: AppRouteModule = {
     {
       path: 'chart',
       name: 'Chart',
-      component: () => import('/@/views/statistics/chart/index.vue'),
+      component: () => import('/@/views/site_statistics/chart/index.vue'),
       meta: {
         // affix: true,
         title: t('routes.demo.statistics.chart'),
@@ -27,7 +27,7 @@ const statistics: AppRouteModule = {
     {
       path: 'table',
       name: 'Table',
-      component: () => import('/@/views/statistics/table/index.vue'),
+      component: () => import('/@/views/site_statistics/table/index.vue'),
       meta: {
         title: t('routes.demo.statistics.table'),
         icon: 'iconoir:table-rows',
@@ -36,4 +36,4 @@ const statistics: AppRouteModule = {
   ],
 }
 
-export default statistics
+export default site_statistics
