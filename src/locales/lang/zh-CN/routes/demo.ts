@@ -149,7 +149,7 @@ export default {
   setup: {
     page: '引导页',
   },
-  siteside: {
+  site_side: {
     page: '现场侧',
   },
   statistics: {
@@ -160,8 +160,8 @@ export default {
   todo: {
     list: '待办操作单',
   },
-  actionfile: {
-    Actionfile: '操作单',
+  operation_ticket: {
+    operation_ticket: '操作单',
     add: '添加操作单',
     template: '操作单模板',
   },
