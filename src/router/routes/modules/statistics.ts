@@ -4,10 +4,10 @@ import { LAYOUT } from '/@/router/constant'
 import { t } from '/@/hooks/web/useI18n'
 
 const statistics: AppRouteModule = {
-  path: '/Statistics',
+  path: '/statistics',
   name: 'StatisticsDemo',
   component: LAYOUT,
-  redirect: '/Statistics/chart',
+  redirect: '/statistics/chart',
   meta: {
     orderNo: 13,
     icon: 'wpf:statistics',

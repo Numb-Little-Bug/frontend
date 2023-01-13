@@ -39,6 +39,6 @@
     "build/**/*.d.ts",
     "mock/**/*.ts",
     "vite.config.ts"
-, "src/views/actionfile/add/data.txs", "src/views/actionfile/add/data.txs", "src/views/Statistics/table/tableData.tsx"  ],
+  ],
   "exclude": ["node_modules", "tests/server/**/*.ts", "dist", "**/*.js"]
 }
