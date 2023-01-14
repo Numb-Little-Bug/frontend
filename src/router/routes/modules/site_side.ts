@@ -18,7 +18,7 @@ const site_side: AppRouteModule = {
     {
       path: 'index',
       name: 'SiteSideDemoPage',
-      component: () => import('/src/views/siteSide/index.vue'),
+      component: () => import('/src/views/site_side/index.vue'),
       meta: {
         title: t('routes.demo.site_side.page'),
         icon: 'uim:airplay',
