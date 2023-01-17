@@ -1,20 +1,10 @@
 <template>
-  <PageWrapper title="modal组件使用示例">
-    <Alert
-      message="使用 useModal 进行弹窗操作，默认可以拖动，可以通过 draggable
-    参数进行控制是否可以拖动/全屏，并演示了在Modal内动态加载内容并自动调整高度"
-      show-icon
-    />
-    <a-button type="primary" class="my-4" @click="openModalLoading">
-      打开弹窗,加载动态数据并自动调整高度(默认可以拖动/全屏)
-    </a-button>
-
-    <Alert message="内外数据交互" show-icon />
-    <a-button type="primary" class="my-4" @click="send"> 打开弹窗并传递数据 </a-button>
-
+  <PageWrapper title="现场侧情况">
+    <ImagePreview :imageList="imgList" />
+    <a-button type="primary" class="my-4" @click="send"> 添加现场侧 </a-button>
     <component :is="currentModal" />
-
     <Modal1 @register="register1" :minHeight="100" />
+    <Modal4 @register="register4" />
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -22,23 +12,37 @@
   import { Alert, Space } from 'ant-design-vue'
   import { useModal } from '/@/components/Modal'
   import Modal1 from './Modal1.vue'
+  import Modal4 from './Modal4.vue'
   import { PageWrapper } from '/@/components/Page'
+  import { createImgPreview, ImagePreview } from '/@/components/Preview/index'
+  // import { PreviewActions } from '/@/components/Preview/src/typing';
 
+  const imgList: string[] = [
+    'https://picsum.photos/id/66/346/216',
+    'https://picsum.photos/id/67/346/216',
+    'https://picsum.photos/id/68/346/216',
+  ]
   export default defineComponent({
-    components: { Alert, Modal1, PageWrapper, ASpace: Space },
+    components: { PageWrapper, ImagePreview, Alert, Modal1, Modal4, ASpace: Space },
     setup() {
       const currentModal = shallowRef<Nullable<ComponentOptions>>(null)
       const [register1, { openModal: openModal1 }] = useModal()
-      const [register2, { openModal: openModal2 }] = useModal()
-      const [register3, { openModal: openModal3 }] = useModal()
       const [register4, { openModal: openModal4 }] = useModal()
       const modalVisible = ref<Boolean>(false)
       const userData = ref<any>(null)
 
+      function openImg() {
+        const onImgLoad = ({ index, url, dom }) => {
+          console.log(`第${index + 1}张图片已加载，URL为：${url}`, dom)
+        }
+        // 可以使用createImgPreview返回的 PreviewActions 来控制预览逻辑，实现类似幻灯片、自动旋转之类的骚操作
+        createImgPreview({ imageList: imgList, defaultWidth: 700, rememberState: true, onImgLoad })
+      }
+
       function send() {
         openModal4(true, {
-          data: 'content',
-          info: 'Info',
+          data: null,
+          info: null,
         })
       }
       function openModalLoading() {
@@ -53,7 +57,9 @@
         switch (index) {
           case 1:
             currentModal.value = Modal1
-
+            break
+          case 4:
+            currentModal.value = Modal4
             break
         }
         nextTick(() => {
@@ -64,14 +70,11 @@
           modalVisible.value = true
         })
       }
-
       return {
+        imgList,
+        openImg,
         register1,
         openModal1,
-        register2,
-        openModal2,
-        register3,
-        openModal3,
         register4,
         openModal4,
         modalVisible,

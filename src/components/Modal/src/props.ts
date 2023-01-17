@@ -10,7 +10,7 @@ export const modalProps = {
   scrollTop: { type: Boolean, default: true },
   height: { type: Number },
   minHeight: { type: Number },
-  // open drag
+  //open drag
   draggable: { type: Boolean, default: true },
   centered: { type: Boolean },
   cancelText: { type: String, default: t('common.cancelText') },
