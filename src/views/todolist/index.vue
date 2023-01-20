@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper :class="prefixCls" title="标准列表">
+  <PageWrapper :class="prefixCls" title="待办操作票">
     <div :class="`${prefixCls}__top`">
       <a-row :gutter="12">
         <a-col :span="8" :class="`${prefixCls}__top-col`">
@@ -18,71 +18,68 @@
     </div>
 
     <div :class="`${prefixCls}__content`">
-      <a-list :pagination="pagination">
-        <template v-for="item in list" :key="item.id">
-          <a-list-item class="list">
-            <a-list-item-meta>
-              <template #avatar>
-                <Icon class="icon" v-if="item.icon" :icon="item.icon" :color="item.color" />
-              </template>
-              <template #title>
-                <span>{{ item.title }}</span>
-                <div class="extra" v-if="item.extra">
-                  {{ item.extra }}
-                </div>
-              </template>
-              <template #description>
-                <div class="description">
-                  {{ item.description }}
-                </div>
-                <div class="info">
-                  <div><span>Owner</span>{{ item.author }}</div>
-                  <div><span>开始时间</span>{{ item.datetime }}</div>
-                </div>
-                <div class="progress">
-                  <Progress :percent="item.percent" status="active" />
-                </div>
-              </template>
-            </a-list-item-meta>
-          </a-list-item>
-        </template>
+      <a-list>
+        <a-row :gutter="16">
+          <template v-for="item in list" :key="item.title">
+            <a-col :span="6">
+              <a-list-item>
+                <a-card :hoverable="true" :class="`${prefixCls}__card`">
+                  <div :class="`${prefixCls}__card-title`">
+                    <Icon class="icon" v-if="item.icon" :icon="item.icon" :color="item.color" />
+                    {{ item.title }}
+                  </div>
+                  <div :class="`${prefixCls}__card-detail`">
+                    基于Vue Next, TypeScript, Ant Design Vue实现的一套完整的企业级后台管理系统
+                  </div>
+                </a-card>
+              </a-list-item>
+            </a-col>
+          </template>
+        </a-row>
       </a-list>
     </div>
   </PageWrapper>
 </template>
 <script lang="ts">
-  import { Progress, Row, Col } from 'ant-design-vue'
   import { defineComponent } from 'vue'
   import Icon from '/@/components/Icon/index'
   import { cardList } from './data'
   import { PageWrapper } from '/@/components/Page'
-  import { List } from 'ant-design-vue'
+  import { Card, Row, Col, List } from 'ant-design-vue'
 
   export default defineComponent({
     components: {
       Icon,
-      Progress,
       PageWrapper,
+      [Card.name]: Card,
       [List.name]: List,
       [List.Item.name]: List.Item,
-      AListItemMeta: List.Item.Meta,
       [Row.name]: Row,
       [Col.name]: Col,
     },
     setup() {
       return {
-        prefixCls: 'list-basic',
+        prefixCls: 'list-card',
         list: cardList,
-        pagination: {
-          show: true,
-          pageSize: 3,
-        },
       }
     },
   })
 </script>
 <style lang="less" scoped>
-  .list-basic {
+  .list-card {
+    &__link {
+      margin-top: 10px;
+      font-size: 14px;
+
+      a {
+        margin-right: 30px;
+      }
+
+      span {
+        margin-left: 5px;
+      }
+    }
+
     &__top {
       padding: 24px;
       text-align: center;
@@ -109,52 +106,32 @@
       }
     }
 
-    &__content {
-      padding: 24px;
-      margin-top: 12px;
-      background-color: @component-background;
+    &__card {
+      width: 100%;
+      margin-bottom: -8px;
 
-      .list {
-        position: relative;
+      .ant-card-body {
+        padding: 16px;
       }
 
-      .icon {
-        font-size: 40px !important;
-      }
+      &-title {
+        margin-bottom: 5px;
+        font-size: 16px;
+        font-weight: 500;
+        color: @text-color;
 
-      .extra {
-        position: absolute;
-        top: 20px;
-        right: 15px;
-        font-weight: normal;
-        color: @primary-color;
-        cursor: pointer;
-      }
-
-      .description {
-        display: inline-block;
-        width: 40%;
-      }
-
-      .info {
-        display: inline-block;
-        width: 30%;
-        text-align: center;
-
-        div {
-          display: inline-block;
-          padding: 0 20px;
-
-          span {
-            display: block;
-          }
+        .icon {
+          margin-top: -5px;
+          margin-right: 10px;
+          font-size: 38px !important;
         }
       }
 
-      .progress {
-        display: inline-block;
-        width: 15%;
-        vertical-align: top;
+      &-detail {
+        padding-top: 10px;
+        padding-left: 30px;
+        font-size: 14px;
+        color: @text-color-secondary;
       }
     }
   }

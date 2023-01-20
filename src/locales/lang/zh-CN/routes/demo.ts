@@ -158,12 +158,12 @@ export default {
     chart: '图表记录',
   },
   todo: {
-    list: '待办操作单',
+    list: '待办操作票',
   },
   operation_ticket: {
-    operation_ticket: '操作单',
-    add: '添加操作单',
-    template: '操作单模板',
+    operation_ticket: '操作票',
+    add: '添加操作票',
+    template: '操作票模板',
   },
   system: {
     moduleName: '系统管理',

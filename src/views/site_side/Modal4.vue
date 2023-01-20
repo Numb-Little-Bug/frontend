@@ -24,14 +24,14 @@
       },
       defaultValue: '111',
     },
-    {
+    /*{
       field: 'field2',
       component: 'Input',
       label: '调度员id',
       colProps: {
         span: 24,
       },
-    },
+    },*/
   ]
   export default defineComponent({
     components: { BasicModal, BasicForm },

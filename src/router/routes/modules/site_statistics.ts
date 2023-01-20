@@ -9,7 +9,7 @@ const site_statistics: AppRouteModule = {
   component: LAYOUT,
   redirect: '/site_statistics/chart',
   meta: {
-    orderNo: 13,
+    orderNo: 14,
     icon: 'wpf:statistics',
     title: t('routes.demo.statistics.StatisticsDemo'),
   },

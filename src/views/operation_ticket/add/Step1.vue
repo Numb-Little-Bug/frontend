@@ -4,26 +4,11 @@
       <BasicForm @register="register">
         <template #fac>
           <a-input-group compact>
-            <a-select class="pay-select">
-              <a-select-option value="zfb"> 支付宝 </a-select-option>
-              <a-select-option value="yl"> 银联 </a-select-option>
-            </a-select>
             <a-input class="pay-input" />
           </a-input-group>
         </template>
       </BasicForm>
     </div>
-    <a-divider />
-    <h3>说明</h3>
-    <h4>转账到支付宝账户</h4>
-    <p>
-      如果需要，这里可以放一些关于产品的常见问题说明。如果需要，这里可以放一些关于产品的常见问题说明。如果需要，这里可以放一些关于产品的常见问题说明。
-    </p>
-
-    <h4>转账到银行卡</h4>
-    <p>
-      如果需要，这里可以放一些关于产品的常见问题说明。如果需要，这里可以放一些关于产品的常见问题说明。如果需要，这里可以放一些关于产品的常见问题说明。
-    </p>
   </div>
 </template>
 <script lang="ts">
@@ -36,7 +21,6 @@
     components: {
       BasicForm,
       [Select.name]: Select,
-      ASelectOption: Select.Option,
       [Input.name]: Input,
       [Input.Group.name]: Input.Group,
       [Divider.name]: Divider,
@@ -44,10 +28,10 @@
     emits: ['next'],
     setup(_, { emit }) {
       const [register, { validate }] = useForm({
-        labelWidth: 100,
+        labelWidth: 80,
         schemas: step1Schemas,
         actionColOptions: {
-          span: 14,
+          span: 24,
         },
         showResetButton: false,
         submitButtonOptions: {
@@ -70,7 +54,7 @@
 <style lang="less" scoped>
   .step1 {
     &-form {
-      width: 450px;
+      width: 900px;
       margin: 0 auto;
     }
 

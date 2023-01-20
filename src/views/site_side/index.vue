@@ -1,7 +1,7 @@
 <template>
   <PageWrapper title="现场侧情况">
-    <ImagePreview :imageList="imgList" />
     <a-button type="primary" class="my-4" @click="send"> 添加现场侧 </a-button>
+    <ImagePreview :imageList="imgList" />
     <component :is="currentModal" />
     <Modal1 @register="register1" :minHeight="100" />
     <Modal4 @register="register4" />
