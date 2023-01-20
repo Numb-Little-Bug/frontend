@@ -9,7 +9,7 @@ const site_side: AppRouteModule = {
   component: LAYOUT,
   redirect: '/site_side/index',
   meta: {
-    orderNo: 11,
+    orderNo: 10,
     hideChildrenInMenu: true,
     icon: 'uim:airplay',
     title: t('routes.demo.site_side.page'),

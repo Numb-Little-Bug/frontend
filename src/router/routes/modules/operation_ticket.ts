@@ -9,7 +9,7 @@ const operation_ticket: AppRouteModule = {
   component: LAYOUT,
   redirect: '/operation_ticket/add',
   meta: {
-    orderNo: 12,
+    orderNo: 11,
     icon: 'mdi:paper-edit-outline',
     title: t('routes.demo.operation_ticket.operation_ticket'),
   },

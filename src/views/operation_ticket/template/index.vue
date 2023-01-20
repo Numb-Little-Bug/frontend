@@ -1,10 +1,5 @@
 <template>
-  <PageWrapper
-    title="基础表单"
-    contentBackground
-    content=" 表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。"
-    contentClass="p-4"
-  >
+  <PageWrapper title="操作票模板">
     <BasicForm @register="register" />
   </PageWrapper>
 </template>
@@ -21,16 +16,22 @@
     setup() {
       const { createMessage } = useMessage()
       const [register, { validate, setProps }] = useForm({
+        /*labelWidth: 80,
         labelCol: {
-          span: 8,
+          span: 5,
         },
         wrapperCol: {
           span: 15,
         },
         schemas: schemas,
         actionColOptions: {
-          offset: 8,
+          offset: 5,
           span: 23,
+        },*/
+        labelWidth: 80,
+        schemas: schemas,
+        actionColOptions: {
+          span: 24,
         },
         submitButtonOptions: {
           text: '提交',
@@ -63,7 +64,9 @@
 </script>
 <style lang="less" scoped>
   .form-wrap {
-    padding: 24px;
+    padding: 5px;
+    width: 450px;
+    margin: 0 auto;
     background-color: @component-background;
   }
 </style>

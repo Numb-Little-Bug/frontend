@@ -1,19 +1,10 @@
 <template>
   <div class="step3">
-    <a-result status="success" title="操作成功" sub-title="预计两小时内到账">
+    <a-result status="success" title="操作票下发成功">
       <template #extra>
-        <a-button type="primary" @click="redo"> 再转一笔 </a-button>
-        <a-button> 查看账单 </a-button>
+        <a-button type="primary" @click="redo"> 完成 </a-button>
       </template>
     </a-result>
-    <div class="desc-wrap">
-      <a-descriptions :column="1" class="mt-5">
-        <a-descriptions-item label="付款账户"> ant-design@alipay.com </a-descriptions-item>
-        <a-descriptions-item label="收款账户"> test@example.com </a-descriptions-item>
-        <a-descriptions-item label="收款人姓名"> Vben </a-descriptions-item>
-        <a-descriptions-item label="转账金额"> 500元 </a-descriptions-item>
-      </a-descriptions>
-    </div>
   </div>
 </template>
 <script lang="ts">
@@ -42,8 +33,8 @@
   }
 
   .desc-wrap {
-    padding: 24px 40px;
-    margin-top: 24px;
+    padding: 30px 40px;
+    margin-top: 30px;
     background-color: @background-color-light;
   }
 </style>

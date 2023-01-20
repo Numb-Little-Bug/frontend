@@ -9,7 +9,7 @@ const todo: AppRouteModule = {
   component: LAYOUT,
   redirect: '/todolist/list',
   meta: {
-    orderNo: 14,
+    orderNo: 13,
     hideChildrenInMenu: true,
     icon: 'wpf:todolist',
     title: t('routes.demo.todo.list'),
