@@ -1,4 +1,22 @@
 /**
+ * @description: Register interface parameters
+ */
+export interface RegisterParams {
+  name: string
+  password: string
+  tel: string
+}
+
+/**
+ * @description: Register interface return value
+ */
+export interface RegisterResultModel {
+  code: number
+  msg: string
+  obj: any
+}
+
+/**
  * @description: Login interface parameters
  */
 export interface LoginParams {

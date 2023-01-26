@@ -8,7 +8,6 @@
         v-if="!sessionTimeout && showLocale"
       />
     </div>
-
     <span class="-enter-x xl:hidden">
       <AppLogo :alwaysShowTitle="true" />
     </span>
