@@ -100,6 +100,10 @@ export const useUserStore = defineStore({
         return Promise.reject(error)
       }
     },
+    /**
+     * @description: After the login is successful, get the user information and set it
+     * @param goHome
+     */
     async afterLoginAction(goHome?: boolean): Promise<GetUserInfoModel | null> {
       if (!this.getToken) return null
       // get user info

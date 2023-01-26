@@ -2,28 +2,20 @@
   <template v-if="getShow">
     <LoginFormTitle class="enter-x" />
     <Form class="p-4 enter-x" :model="formData" :rules="getFormRules" ref="formRef">
-      <FormItem name="account" class="enter-x">
+      <FormItem name="name" class="enter-x">
         <Input
           class="fix-auto-fill"
           size="large"
-          v-model:value="formData.account"
+          v-model:value="formData.name"
           :placeholder="t('sys.login.userName')"
         />
       </FormItem>
-      <FormItem name="mobile" class="enter-x">
+      <FormItem name="tel" class="enter-x">
         <Input
           size="large"
-          v-model:value="formData.mobile"
+          v-model:value="formData.tel"
           :placeholder="t('sys.login.mobile')"
           class="fix-auto-fill"
-        />
-      </FormItem>
-      <FormItem name="sms" class="enter-x">
-        <CountdownInput
-          size="large"
-          class="fix-auto-fill"
-          v-model:value="formData.sms"
-          :placeholder="t('sys.login.smsCode')"
         />
       </FormItem>
       <FormItem name="password" class="enter-x">
@@ -70,9 +62,9 @@
   import LoginFormTitle from './LoginFormTitle.vue'
   import { Form, Input, Button, Checkbox } from 'ant-design-vue'
   import { StrengthMeter } from '/@/components/StrengthMeter'
-  import { CountdownInput } from '/@/components/CountDown'
   import { useI18n } from '/@/hooks/web/useI18n'
   import { useLoginState, useFormRules, useFormValid, LoginStateEnum } from './useLogin'
+  import { registerApi } from '/@/api/sys/user'
 
   const FormItem = Form.Item
   const InputPassword = Input.Password
@@ -83,12 +75,10 @@
   const loading = ref(false)
 
   const formData = reactive({
-    account: '',
+    name: '',
     password: '',
     confirmPassword: '',
-    mobile: '',
-    sms: '',
-    policy: false,
+    tel: '',
   })
 
   const { getFormRules } = useFormRules(formData)
@@ -100,6 +90,16 @@
     const data = await validForm()
     if (!data) return
     console.log(data)
-    //TODO: 在这里写注册逻辑, 发送ajax
+    //TODO: 在这里写注册逻辑, 发送ajax请求
+    try {
+      let res: Promise<any> = registerApi({
+        name: data.name,
+        password: data.password,
+        tel: data.tel,
+      })
+      console.log(res)
+    } catch (error) {
+      return Promise.reject(error)
+    }
   }
 </script>
