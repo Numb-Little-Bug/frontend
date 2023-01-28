@@ -31,13 +31,13 @@
           </div>
           <div style="color: white">
             <span>
-              现场侧开发：
+              现场侧预览：
               <span> 手机号：19999999999</span>
               <span> 密码：123456</span>
             </span>
             <br />
             <span>
-              调度侧开发：
+              调度侧预览：
               <span> 手机号：18888888888</span>
               <span> 密码：123456</span>
             </span>
