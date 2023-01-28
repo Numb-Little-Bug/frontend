@@ -1,5 +1,5 @@
 import type { AppRouteModule } from '/@/router/types'
-
+import { RoleEnum } from '/@/enums/roleEnum'
 import { LAYOUT } from '/@/router/constant'
 import { t } from '/@/hooks/web/useI18n'
 
@@ -13,6 +13,7 @@ const site_side: AppRouteModule = {
     hideChildrenInMenu: true,
     icon: 'uim:airplay',
     title: t('routes.demo.site_side.page'),
+    roles: [RoleEnum.DISPATCH],
   },
   children: [
     {

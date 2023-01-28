@@ -1,5 +1,5 @@
 import type { AppRouteModule } from '/@/router/types'
-
+import { RoleEnum } from '/@/enums/roleEnum'
 import { LAYOUT } from '/@/router/constant'
 import { t } from '/@/hooks/web/useI18n'
 
@@ -12,6 +12,7 @@ const site_statistics: AppRouteModule = {
     orderNo: 14,
     icon: 'wpf:statistics',
     title: t('routes.demo.statistics.StatisticsDemo'),
+    roles: [RoleEnum.SITE],
   },
   children: [
     {
