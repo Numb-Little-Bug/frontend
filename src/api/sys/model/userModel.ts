@@ -5,6 +5,7 @@ export interface RegisterParams {
   name: string
   password: string
   tel: string
+  role: string | null
 }
 
 /**
@@ -20,7 +21,7 @@ export interface RegisterResultModel {
  * @description: Login interface parameters
  */
 export interface LoginParams {
-  username: string
+  tel: string
   password: string
 }
 
