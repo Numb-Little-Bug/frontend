@@ -65,7 +65,7 @@ export default {
 
     signInTitle: 'Backstage management system',
     signInDesc: 'Enter your personal details and get started!',
-    policy: 'I agree to the xxx Privacy Policy',
+    policy: 'I agree to the Intelligent Security System for Power Production Privacy Policy',
     scanSign: `scanning the code to complete the login`,
 
     loginButton: 'Sign in',
@@ -77,6 +77,8 @@ export default {
     // notify
     loginSuccessTitle: 'Login successful',
     loginSuccessDesc: 'Welcome back',
+    registerSuccessTitle: 'Sign up successful',
+    registerSuccessDesc: 'Welcome to the system',
 
     // placeholder
     accountPlaceholder: 'Please input username',
@@ -85,12 +87,21 @@ export default {
     mobilePlaceholder: 'Please input mobile',
     policyPlaceholder: 'Register after checking',
     diffPwd: 'The two passwords are inconsistent',
-
+    role: 'Role',
+    passwordLengthPlaceholder:
+      'The length of the password must be greater than or equal to 6 and less than or equal to 16',
+    telFormatError: 'The phone number format is incorrect',
+    rolePlaceholder: 'Please select a role',
+    namePlaceholder: 'Please input name',
     userName: 'Username',
     password: 'Password',
     confirmPassword: 'Confirm Password',
     email: 'Email',
     smsCode: 'SMS code',
     mobile: 'Mobile',
+  },
+  custom: {
+    dispatch: 'Dispatch',
+    site: 'Site',
   },
 }
