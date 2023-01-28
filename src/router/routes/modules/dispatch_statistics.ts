@@ -1,5 +1,5 @@
 import type { AppRouteModule } from '/@/router/types'
-
+import { RoleEnum } from '/@/enums/roleEnum'
 import { LAYOUT } from '/@/router/constant'
 //import { t } from '/@/hooks/web/useI18n'
 
@@ -7,11 +7,12 @@ const dispatch_statistics: AppRouteModule = {
   path: '/dispatch_statistics',
   name: 'DispatchStatisticsDemo',
   component: LAYOUT,
-  redirect: '/dispatch_statistics/chart',
+  redirect: '/dispatch_statistics/dispatch_chart',
   meta: {
     orderNo: 12,
     icon: 'wpf:statistics',
     title: 'Dispatch Statistics',
+    roles: [RoleEnum.DISPATCH],
   },
   children: [
     {

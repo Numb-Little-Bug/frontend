@@ -1,5 +1,5 @@
 import type { AppRouteModule } from '/@/router/types'
-
+import { RoleEnum } from '/@/enums/roleEnum'
 import { LAYOUT } from '/@/router/constant'
 import { t } from '/@/hooks/web/useI18n'
 
@@ -12,6 +12,7 @@ const operation_ticket: AppRouteModule = {
     orderNo: 11,
     icon: 'mdi:paper-edit-outline',
     title: t('routes.demo.operation_ticket.operation_ticket'),
+    roles: [RoleEnum.DISPATCH],
   },
   children: [
     {

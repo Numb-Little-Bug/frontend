@@ -29,6 +29,19 @@
               {{ t('sys.login.signInDesc') }}
             </div>
           </div>
+          <div style="color: white">
+            <span>
+              现场侧预览：
+              <span> 手机号：19999999999</span>
+              <span> 密码：123456</span>
+            </span>
+            <br />
+            <span>
+              调度侧预览：
+              <span> 手机号：18888888888</span>
+              <span> 密码：123456</span>
+            </span>
+          </div>
         </div>
         <div class="flex w-full h-full py-5 xl:h-auto xl:py-0 xl:my-0 xl:w-6/12">
           <div
