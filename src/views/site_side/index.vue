@@ -54,8 +54,10 @@
         try {
           const res = await getSiteApi()
           sites.value = res
+          console.log('asdfsadf', res)
         } catch (e) {
           console.log(e)
+          console.log('asdfsadf')
         }
       })
       function openTargetModal(index) {

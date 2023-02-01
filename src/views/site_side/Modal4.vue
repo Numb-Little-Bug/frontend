@@ -15,8 +15,20 @@
           :placeholder="t('sys.site.name')"
         />
       </FormItem>
-      <BasicUpload :maxSize="20" :maxNumber="1" :api="Api.Video" />
-      <BasicUpload :maxSize="20" :maxNumber="1" :api="Api.Video" />
+      <BasicUpload :maxSize="20" :maxNumber="1" :api="upload" />
+      <BasicUpload :maxSize="20" :maxNumber="1" :api="upload" />
+<!--      <a-upload-->
+<!--        v-model:file-list="fileList"-->
+<!--        name="file"-->
+<!--        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"-->
+<!--        :headers="headers"-->
+<!--        @change="handleChange"-->
+<!--      >-->
+<!--        <a-button>-->
+<!--          <upload-outlined />-->
+<!--          Click to Upload-->
+<!--        </a-button>-->
+<!--      </a-upload>-->
     </Form>
   </BasicModal>
 </template>
@@ -28,7 +40,7 @@
   import { BasicModal } from '/@/components/Modal'
   import { useI18n } from '/@/hooks/web/useI18n'
   import { useFormRules } from './useSite'
-  import { siteApi, getSiteApi } from '/@/api/sys/site'
+  import { siteApi, getSiteApi, videoApi } from '/@/api/sys/site'
   import { notification } from 'ant-design-vue'
   import { useTabs } from '/@/hooks/web/useTabs'
   const { getFormRules } = useFormRules()
@@ -47,12 +59,16 @@
     video2: '',
   })
   const { refreshPage } = useTabs()
+  const upload = (file: any) => {
+    console.log(file.file)
+    return videoApi({
+      file: file.file,
+    })
+  }
   const handleOk = async () => {
     try {
       const res = await siteApi({
         name: formData.name,
-        video1: formData.video1,
-        video2: formData.video2,
       })
       if (res) {
         notification.success({
