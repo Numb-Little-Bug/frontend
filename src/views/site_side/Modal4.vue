@@ -15,27 +15,11 @@
           :placeholder="t('sys.site.name')"
         />
       </FormItem>
-      <BasicUpload :maxSize="20" :maxNumber="1" :api="upload" />
-      <BasicUpload :maxSize="20" :maxNumber="1" :api="upload" />
-<!--      <a-upload-->
-<!--        v-model:file-list="fileList"-->
-<!--        name="file"-->
-<!--        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"-->
-<!--        :headers="headers"-->
-<!--        @change="handleChange"-->
-<!--      >-->
-<!--        <a-button>-->
-<!--          <upload-outlined />-->
-<!--          Click to Upload-->
-<!--        </a-button>-->
-<!--      </a-upload>-->
     </Form>
   </BasicModal>
 </template>
 <script lang="ts" setup>
   import { Form } from 'ant-design-vue'
-  import { Api } from '/@/api/sys/site'
-  import { BasicUpload } from '/@/components/Upload'
   import { ref, reactive } from 'vue'
   import { BasicModal } from '/@/components/Modal'
   import { useI18n } from '/@/hooks/web/useI18n'
@@ -50,21 +34,11 @@
 
   interface formModal {
     name: string
-    video1: string
-    video2: string
   }
   const formData = reactive<formModal>({
     name: '',
-    video1: '',
-    video2: '',
   })
   const { refreshPage } = useTabs()
-  const upload = (file: any) => {
-    console.log(file.file)
-    return videoApi({
-      file: file.file,
-    })
-  }
   const handleOk = async () => {
     try {
       const res = await siteApi({
