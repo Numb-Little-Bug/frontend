@@ -1,29 +1,55 @@
 <template>
   <PageWrapper title="现场侧情况">
     <a-button type="primary" class="my-4" @click="send"> 添加现场侧 </a-button>
-    <ImagePreview v-for="site in sites" :imageList="imgList" />
-    <component :is="currentModal" />
-    <Modal1 @register="register1" :minHeight="100" />
+    <Card>
+      <CardGrid v-for="site in sites" :key="site" class="!md:w-1/3 !w-full">
+        <span class="flex">
+          <video
+            class="w-32 h-20"
+            controls
+            :src="site.video1"
+            :poster="site.video1"
+            style="object-fit: cover"
+          />
+        </span>
+        <span class="flex">
+          <span class="text-lg ml-4">{{site.id}} - {{ site.name }}</span>
+        </span>
+        <span class="flex">
+          <BasicUpload :uploadParams="getUploadParams(site.id)" :emptyHidePreview="true" :showPreviewNumber="false" :maxSize="20" :maxNumber="1" :api="upload" />
+        </span>
+      </CardGrid>
+    </Card>
     <Modal4 @register="register4" />
   </PageWrapper>
 </template>
 <script lang="ts">
+  import { BasicUpload } from '/@/components/Upload'
+  import { Card, CardGrid } from 'ant-design-vue'
   import { defineComponent, shallowRef, ComponentOptions, ref, nextTick, onMounted } from 'vue'
   import { Alert, Space } from 'ant-design-vue'
   import { useModal } from '/@/components/Modal'
-  import Modal1 from './Modal1.vue'
   import Modal4 from './Modal4.vue'
   import { PageWrapper } from '/@/components/Page'
   import { createImgPreview, ImagePreview } from '/@/components/Preview/index'
-  import { getSiteApi } from '/@/api/sys/site'
+  import { getSiteApi, videoApi } from '/@/api/sys/site'
   // import { PreviewActions } from '/@/components/Preview/src/typing';
-
+  const upload = (file: any) => {
+    console.log(file)
+    return videoApi({
+      file: file.file,
+    })
+  }
+  const getUploadParams = (siteId: number) => {
+    return {
+      siteId: siteId,
+    }
+  }
   const imgList: string[] = ['https://picsum.photos/id/66/346/216']
   export default defineComponent({
-    components: { PageWrapper, ImagePreview, Alert, Modal1, Modal4, ASpace: Space },
+    components: { BasicUpload, Card, CardGrid, PageWrapper, ImagePreview, Alert, Modal4, ASpace: Space },
     setup() {
       const currentModal = shallowRef<Nullable<ComponentOptions>>(null)
-      const [register1, { openModal: openModal1 }] = useModal()
       const [register4, { openModal: openModal4 }] = useModal()
       const modalVisible = ref<Boolean>(false)
       const userData = ref<any>(null)
@@ -42,33 +68,16 @@
           info: null,
         })
       }
-      function openModalLoading() {
-        openModal1(true)
-        // setModalProps({ loading: true });
-        // setTimeout(() => {
-        //   setModalProps({ loading: false });
-        // }, 2000);
-      }
       let sites = ref<any>(null)
       onMounted(async () => {
         try {
           const res = await getSiteApi()
+          console.log('res:', res)
           sites.value = res
-          console.log('asdfsadf', res)
         } catch (e) {
           console.log(e)
-          console.log('asdfsadf')
         }
       })
-      function openTargetModal(index) {
-        switch (index) {
-          case 1:
-            currentModal.value = Modal1
-            break
-          case 4:
-            currentModal.value = Modal4
-            break
-        }
         nextTick(() => {
           // `useModal` not working with dynamic component
           // passing data through `userData` prop
@@ -76,20 +85,17 @@
           // open the target modal
           modalVisible.value = true
         })
-      }
       return {
+        getUploadParams,
+        upload,
         imgList,
         openImg,
-        register1,
-        openModal1,
         register4,
         openModal4,
         modalVisible,
         userData,
-        openTargetModal,
         send,
         currentModal,
-        openModalLoading,
         sites,
       }
     },
