@@ -1,27 +1,24 @@
 <template>
   <PageWrapper title="现场侧情况">
     <a-button type="primary" class="my-4" @click="send"> 添加现场侧 </a-button>
-    <ImagePreview :imageList="imgList" />
+    <ImagePreview v-for="site in sites" :imageList="imgList" />
     <component :is="currentModal" />
     <Modal1 @register="register1" :minHeight="100" />
     <Modal4 @register="register4" />
   </PageWrapper>
 </template>
 <script lang="ts">
-  import { defineComponent, shallowRef, ComponentOptions, ref, nextTick } from 'vue'
+  import { defineComponent, shallowRef, ComponentOptions, ref, nextTick, onMounted } from 'vue'
   import { Alert, Space } from 'ant-design-vue'
   import { useModal } from '/@/components/Modal'
   import Modal1 from './Modal1.vue'
   import Modal4 from './Modal4.vue'
   import { PageWrapper } from '/@/components/Page'
   import { createImgPreview, ImagePreview } from '/@/components/Preview/index'
+  import { getSiteApi } from '/@/api/sys/site'
   // import { PreviewActions } from '/@/components/Preview/src/typing';
 
-  const imgList: string[] = [
-    'https://picsum.photos/id/66/346/216',
-    'https://picsum.photos/id/67/346/216',
-    'https://picsum.photos/id/68/346/216',
-  ]
+  const imgList: string[] = ['https://picsum.photos/id/66/346/216']
   export default defineComponent({
     components: { PageWrapper, ImagePreview, Alert, Modal1, Modal4, ASpace: Space },
     setup() {
@@ -52,7 +49,15 @@
         //   setModalProps({ loading: false });
         // }, 2000);
       }
-
+      let sites = ref<any>(null)
+      onMounted(async () => {
+        try {
+          const res = await getSiteApi()
+          sites.value = res
+        } catch (e) {
+          console.log(e)
+        }
+      })
       function openTargetModal(index) {
         switch (index) {
           case 1:
@@ -83,6 +88,7 @@
         send,
         currentModal,
         openModalLoading,
+        sites,
       }
     },
   })

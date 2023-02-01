@@ -104,4 +104,11 @@ export default {
     dispatch: 'Dispatch',
     site: 'Site',
   },
+  site: {
+    name: 'Site Name',
+    siteSuccessTitle: 'Site created successfully',
+    namePlaceholder: 'Please input site name',
+    video1: 'Video 1',
+    video2: 'Video 2',
+  },
 }
