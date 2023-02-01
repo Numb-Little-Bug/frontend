@@ -58,24 +58,20 @@ async function getAsyncMenus() {
     const res = permissionStore.getBackMenuList.filter(
       (item) => !item.meta?.hideMenu && !item.hideMenu,
     )
-    console.log('backMenus', res)
     return res
   }
   if (isRouteMappingMode()) {
     const res = permissionStore.getFrontMenuList.filter((item) => !item.hideMenu)
-    console.log('routeMappingMenus', res)
     return res
   }
   if (isRoleMode()) {
     const res = staticMenus
-    console.log('roleMenus', res)
     return res
   }
 }
 
 export const getMenus = async (): Promise<Menu[]> => {
   const menus = await getAsyncMenus()
-  console.log('getAsyncMenus()', menus)
   if (isRoleMode()) {
     const routes = router.getRoutes()
     console.log('router.getRoutes()', routes)

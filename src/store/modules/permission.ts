@@ -120,7 +120,6 @@ export const usePermissionStore = defineStore({
         // 抽出角色
         const { roles } = meta || {}
         if (!roles) return true
-        console.log('roleList', roleList) //["dispatch"]
         // 进行角色权限判断
         let res = false
         for (const role of roleList) {

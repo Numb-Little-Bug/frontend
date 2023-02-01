@@ -1,85 +1,67 @@
 <template>
-  <BasicModal
-    v-bind="$attrs"
-    @register="register"
-    title="添加现场侧"
-    @visible-change="handleVisibleChange"
-  >
-    <div class="pt-3px pr-3px">
-      <BasicForm @register="registerForm" :model="model" />
-    </div>
+  <BasicModal v-bind="$attrs" title="添加现场侧" @ok="handleOk">
+    <Form
+      class="p-4 enter-x"
+      :model="formData"
+      :rules="getFormRules"
+      ref="formRef"
+      @keypress.enter="handleOk"
+    >
+      <FormItem name="name" class="enter-x">
+        <AInput
+          class="fix-auto-fill"
+          size="large"
+          v-model:value="formData.name"
+          :placeholder="t('sys.site.name')"
+        />
+      </FormItem>
+      <BasicUpload :maxSize="20" :maxNumber="1" :api="Api.Video" />
+      <BasicUpload :maxSize="20" :maxNumber="1" :api="Api.Video" />
+    </Form>
   </BasicModal>
 </template>
-<script lang="ts">
-  import { defineComponent, ref, nextTick } from 'vue'
-  import { BasicModal, useModalInner } from '/@/components/Modal'
-  import { BasicForm, FormSchema, useForm } from '/@/components/Form/index'
-  const schemas: FormSchema[] = [
-    {
-      field: 'field1',
-      component: 'Input',
-      label: '现场侧id',
-      colProps: {
-        span: 24,
-      },
-      defaultValue: '111',
-    },
-    /*{
-      field: 'field2',
-      component: 'Input',
-      label: '调度员id',
-      colProps: {
-        span: 24,
-      },
-    },*/
-  ]
-  export default defineComponent({
-    components: { BasicModal, BasicForm },
-    props: {
-      userData: { type: Object },
-    },
-    setup(props) {
-      const modelRef = ref({})
-      const [
-        registerForm,
-        {
-          // setFieldsValue,
-          // setProps
-        },
-      ] = useForm({
-        labelWidth: 120,
-        schemas,
-        showActionButtonGroup: false,
-        actionColOptions: {
-          span: 24,
-        },
-      })
+<script lang="ts" setup>
+  import { Form } from 'ant-design-vue'
+  import { Api } from '/@/api/sys/site'
+  import { BasicUpload } from '/@/components/Upload'
+  import { ref, reactive } from 'vue'
+  import { BasicModal } from '/@/components/Modal'
+  import { useI18n } from '/@/hooks/web/useI18n'
+  import { useFormRules } from './useSite'
+  import { siteApi, getSiteApi } from '/@/api/sys/site'
+  import { notification } from 'ant-design-vue'
+  import { useTabs } from '/@/hooks/web/useTabs'
+  const { getFormRules } = useFormRules()
+  const FormItem = Form.Item
+  const { t } = useI18n()
+  const formRef = ref()
 
-      const [register] = useModalInner((data) => {
-        data && onDataReceive(data)
-      })
-
-      function onDataReceive(data) {
-        console.log('Data Received', data)
-        // 方式1;
-        // setFieldsValue({
-        //   field2: data.data,
-        //   field1: data.info,
-        // });
-
-        // // 方式2
-        modelRef.value = { field2: data.data, field1: data.info }
-
-        // setProps({
-        //   model:{ field2: data.data, field1: data.info }
-        // })
-      }
-
-      function handleVisibleChange(v) {
-        v && props.userData && nextTick(() => onDataReceive(props.userData))
-      }
-
-      return { register, schemas, registerForm, model: modelRef, handleVisibleChange }
-    },
+  interface formModal {
+    name: string
+    video1: string
+    video2: string
+  }
+  const formData = reactive<formModal>({
+    name: '',
+    video1: '',
+    video2: '',
   })
+  const { refreshPage } = useTabs()
+  const handleOk = async () => {
+    try {
+      const res = await siteApi({
+        name: formData.name,
+        video1: formData.video1,
+        video2: formData.video2,
+      })
+      if (res) {
+        notification.success({
+          message: t('sys.site.siteSuccessTitle'),
+          duration: 2,
+        })
+        await getSiteApi()
+        await refreshPage()
+      }
+    } catch (error) {}
+  }
 </script>

@@ -102,4 +102,11 @@ export default {
     dispatch: '调度侧',
     site: '现场侧',
   },
+  site: {
+    name: '现场侧名称',
+    siteSuccessTitle: '现场侧注册成功',
+    namePlaceholder: '请输入现场侧名称',
+    video1: '视频1',
+    video2: '视频2',
+  },
 }
