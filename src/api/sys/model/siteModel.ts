@@ -7,6 +7,7 @@ export interface SiteParams {
 
 export interface VideoParams {
   file: any
+  siteId: number
 }
 
 export interface SiteResultModel {
