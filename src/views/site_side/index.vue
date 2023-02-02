@@ -10,13 +10,20 @@
             :src="site.video1"
             :poster="site.video1"
             style="object-fit: cover"
+          ></video>
+        </span>
+        <span class="flex">
+          <span class="text-lg ml-4">{{ site.id }} - {{ site.name }}</span>
+        </span>
+        <span class="flex">
+          <BasicUpload
+            :emptyHidePreview="true"
+            :showPreviewNumber="false"
+            :maxSize="20"
+            :maxNumber="1"
+            :api="upload"
+            @click="updateSiteId(site.id)"
           />
-        </span>
-        <span class="flex">
-          <span class="text-lg ml-4">{{site.id}} - {{ site.name }}</span>
-        </span>
-        <span class="flex">
-          <BasicUpload :uploadParams="getUploadParams(site.id)" :emptyHidePreview="true" :showPreviewNumber="false" :maxSize="20" :maxNumber="1" :api="upload" />
         </span>
       </CardGrid>
     </Card>
@@ -34,25 +41,39 @@
   import { createImgPreview, ImagePreview } from '/@/components/Preview/index'
   import { getSiteApi, videoApi } from '/@/api/sys/site'
   // import { PreviewActions } from '/@/components/Preview/src/typing';
+
+  let siteId = ref(0)
+
   const upload = (file: any) => {
     console.log(file)
+    console.log('siteId:', siteId.value)
     return videoApi({
       file: file.file,
+      siteId: siteId.value,
     })
-  }
-  const getUploadParams = (siteId: number) => {
-    return {
-      siteId: siteId,
-    }
   }
   const imgList: string[] = ['https://picsum.photos/id/66/346/216']
   export default defineComponent({
-    components: { BasicUpload, Card, CardGrid, PageWrapper, ImagePreview, Alert, Modal4, ASpace: Space },
+    components: {
+      BasicUpload,
+      Card,
+      CardGrid,
+      PageWrapper,
+      ImagePreview,
+      Alert,
+      Modal4,
+      ASpace: Space,
+    },
     setup() {
       const currentModal = shallowRef<Nullable<ComponentOptions>>(null)
       const [register4, { openModal: openModal4 }] = useModal()
       const modalVisible = ref<Boolean>(false)
       const userData = ref<any>(null)
+
+      const updateSiteId = (id: number) => {
+        siteId.value = id
+        // console.log('siteId:', siteId.value)
+      }
 
       function openImg() {
         const onImgLoad = ({ index, url, dom }) => {
@@ -78,15 +99,15 @@
           console.log(e)
         }
       })
-        nextTick(() => {
-          // `useModal` not working with dynamic component
-          // passing data through `userData` prop
-          userData.value = { data: Math.random(), info: 'Info222' }
-          // open the target modal
-          modalVisible.value = true
-        })
+      nextTick(() => {
+        // `useModal` not working with dynamic component
+        // passing data through `userData` prop
+        userData.value = { data: Math.random(), info: 'Info222' }
+        // open the target modal
+        modalVisible.value = true
+      })
       return {
-        getUploadParams,
+        siteId,
         upload,
         imgList,
         openImg,
@@ -97,6 +118,7 @@
         send,
         currentModal,
         sites,
+        updateSiteId,
       }
     },
   })
