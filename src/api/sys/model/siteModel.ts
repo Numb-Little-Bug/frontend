@@ -5,6 +5,10 @@ export interface SiteParams {
   name: string
 }
 
+export interface deleteSiteParams {
+  siteId: number
+}
+
 export interface VideoParams {
   file: any
   siteId: number

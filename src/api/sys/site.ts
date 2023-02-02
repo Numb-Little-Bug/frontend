@@ -1,5 +1,11 @@
 import { defHttp } from '/@/utils/http/axios'
-import { SiteResultModel, SiteParams, VideoParams, VideoResultModel } from './model/siteModel'
+import {
+  SiteResultModel,
+  SiteParams,
+  VideoParams,
+  VideoResultModel,
+  deleteSiteParams
+} from "./model/siteModel";
 import { ErrorMessageMode } from '/#/axios'
 
 export enum Api {
@@ -22,5 +28,12 @@ export function videoApi(params: VideoParams, mode: ErrorMessageMode = 'modal') 
   return defHttp.uploadFile<VideoResultModel>(
     { url: Api.Video, params },
     { file: params.file, errorMessageMode: mode },
+  )
+}
+
+export function deleteSiteApi(params: deleteSiteParams, mode: ErrorMessageMode = 'modal') {
+  return defHttp.delete<SiteResultModel>(
+    { url: Api.Site + '/' + params.siteId },
+    { errorMessageMode: mode },
   )
 }

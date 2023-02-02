@@ -110,5 +110,9 @@ export default {
     namePlaceholder: 'Please input site name',
     video1: 'Video 1',
     video2: 'Video 2',
+    videoSuccessTitle: 'Video uploaded successfully',
+    videoErrorTitle: 'Video upload failed',
+    deleteConfirm: 'Confirm to delete the site?',
+    deleteConfirmMessage: 'Confirm to delete the site {name}?',
   },
 }

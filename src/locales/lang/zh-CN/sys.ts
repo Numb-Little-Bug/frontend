@@ -108,5 +108,9 @@ export default {
     namePlaceholder: '请输入现场侧名称',
     video1: '视频1',
     video2: '视频2',
+    videoSuccessTitle: '视频上传成功',
+    videoErrorTitle: '视频上传失败',
+    deleteConfirm: '是否确认删除?',
+    deleteConfirmMessage: '确认删除现场侧{name}?',
   },
 }
