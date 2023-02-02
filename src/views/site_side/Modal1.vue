@@ -5,7 +5,7 @@
     :helpMessage="t('sys.site.deleteConfirmMessage', { name: props.siteId })"
     @ok="deleteSite"
   >
-    {{ props.siteId }}
+    {{ siteId }}
     {{ t('sys.site.deleteConfirmMessage', { name: props.siteId }) }}
   </BasicModal>
 </template>
