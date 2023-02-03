@@ -12,7 +12,7 @@
       <a-descriptions-item label="类别"> {{ values.type }}</a-descriptions-item>
       <a-descriptions-item label="唱票人"> {{ values.name1 }} </a-descriptions-item>
       <a-descriptions-item label="操作人"> {{ values.operator_name }} </a-descriptions-item>
-      <a-descriptions-item label="发布人"> {{ values.name2 }} </a-descriptions-item>
+      <a-descriptions-item label="发布人"> {{  }} </a-descriptions-item>
     </a-descriptions>
     <a-descriptions :column="1" class="mt-5">
       <a-descriptions-item label="操作步骤"> {{ values.step }} </a-descriptions-item>
@@ -24,11 +24,12 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent, ref } from 'vue'
   import { BasicForm, useForm } from '/@/components/Form'
   import { Alert, Divider, Descriptions } from 'ant-design-vue'
   import { addTicketApi } from '/@/api/sys/ticket'
   import { AddTicketParams } from '/@/api/sys/model/ticketModel'
+  import { getUserInfo } from '/@/api/sys/user'
 
   export default defineComponent({
     components: {
@@ -60,29 +61,47 @@
         emit('prev')
       }
 
-      const Ticket: AddTicketParams = {
+      async function getUserId() {
+        const res = await getUserInfo()
+        return res.id
+      }
+      const UserId = ref('')
+
+      let Ticket: AddTicketParams = {
         name: _.values.title,
         siteId: _.values.site_side_name,
         startTime: _.values.start_end_time[0],
         endTime: _.values.start_end_time[1],
-        teller: _.values.name1,
-        operator: _.values.operator_name,
-        publisher: _.values.name2,
+        tellerId: _.values.name1,
+        operatorId: _.values.operator_name,
+        publisherId: Number(UserId),
         notice: _.values.safety_precautions,
         remark: _.values.notes,
         status: 0,
       }
-
       async function customSubmitFunc() {
         try {
+          UserId.value = await getUserId()
+          console.log(UserId.value)
           const Step2_values = await validate()
           await setProps({
             submitButtonOptions: {
               loading: true,
             },
           })
-          const res = await addTicketApi(Ticket)
-          console.log(res)
+          Ticket = {
+            name: _.values.title,
+            siteId: _.values.site_side_name,
+            startTime: _.values.start_end_time[0],
+            endTime: _.values.start_end_time[1],
+            tellerId: _.values.name1,
+            operatorId: _.values.operator_name,
+            publisherId: Number(UserId.value),
+            notice: _.values.safety_precautions,
+            remark: _.values.notes,
+            status: 0,
+          }
+          await addTicketApi(Ticket)
           setTimeout(() => {
             setProps({
               submitButtonOptions: {
@@ -91,7 +110,8 @@
             })
             emit('next', Step2_values)
           }, 1500)
-        } catch (error) {}
+        } catch (error) {
+        }
       }
 
       return { register }
