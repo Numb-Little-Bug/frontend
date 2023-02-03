@@ -14,7 +14,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import { BasicForm, useForm } from '/@/components/Form'
-  import { step1Schemas } from './data'
+  import {step1Schemas } from './data'
 
   import { Select, Input, Divider } from 'ant-design-vue'
   export default defineComponent({
@@ -27,7 +27,7 @@
     },
     emits: ['next'],
     setup(_, { emit }) {
-      const [register, { validate }] = useForm({
+      const [register, { validate, appendSchemaByField }] = useForm({
         labelWidth: 80,
         schemas: step1Schemas,
         actionColOptions: {
@@ -49,6 +49,11 @@
       }
 
       return { register }
+    },
+    methods: {
+      newStep() {
+        alert('newStep')
+      },
     },
   })
 </script>
