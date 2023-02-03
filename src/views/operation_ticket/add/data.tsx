@@ -1,4 +1,6 @@
 import { FormSchema } from '/@/components/Form'
+import { getSiteApi } from '/@/api/sys/site'
+import { getSiteUserApi } from '/@/api/sys/user'
 
 export const step1Schemas: FormSchema[] = [
   {
@@ -12,12 +14,18 @@ export const step1Schemas: FormSchema[] = [
   },
   {
     field: 'site_side_name',
-    component: 'Input',
+    component: 'ApiSelect',
     label: '现场侧名',
     colProps: {
-      span: 8,
+      span: 6,
     },
     required: true,
+    componentProps: {
+      api: () => getSiteApi(),
+      valueField: 'id',
+      labelField: 'name',
+      immediate: false,
+    },
   },
   {
     field: 'start_end_time',
@@ -29,64 +37,76 @@ export const step1Schemas: FormSchema[] = [
       showTime: { format: 'HH:mm' },
     },
     colProps: {
-      span: 8,
+      span: 12,
     },
     required: true,
   },
   {
-    field: 'type',
-    component: 'Select',
-    label: '类别',
-    //required: true,
-    colProps: {
-      span: 8,
-    },
-    componentProps: {
-      options: [
-        {
-          label: '类别1',
-          value: '1',
-        },
-        {
-          label: '类别2',
-          value: '2',
-        },
-        {
-          label: '类别3',
-          value: '3',
-        },
-        {
-          label: '类别4',
-          value: '4',
-        },
-      ],
-    },
-  },
-  {
     field: 'name1',
-    component: 'Input',
+    component: 'ApiSelect',
     label: '唱票人',
     required: true,
     colProps: {
       span: 8,
     },
+    componentProps: {
+      api: () => getSiteUserApi(),
+      valueField: 'id',
+      labelField: 'name',
+      immediate: false,
+    },
+    dynamicRules: ({ values }) => {
+      return [
+        {
+          required: true,
+          message: '操作人不能为空',
+          trigger: ['change', 'blur'],
+        },
+        {
+          //效验唱票人与操作人不同
+          validator: (rule, value) => {
+            if (value === values.operator_name) {
+              return Promise.reject('唱票人与操作人不能相同')
+            }
+            return Promise.resolve()
+          },
+          trigger: ['change', 'blur'],
+        },
+      ]
+    },
   },
   {
     field: 'operator_name',
-    component: 'Input',
+    component: 'ApiSelect',
     label: '操作人',
     //required: true,
     colProps: {
       span: 8,
     },
-  },
-  {
-    field: 'name2',
-    component: 'Input',
-    label: '发布人',
-    //required: true,
-    colProps: {
-      span: 8,
+    componentProps: {
+      api: () => getSiteUserApi(),
+      valueField: 'id',
+      labelField: 'name',
+      immediate: false,
+    },
+    dynamicRules: ({ values }) => {
+      return [
+        {
+          required: true,
+          message: '操作人不能为空',
+          trigger: ['change', 'blur'],
+        },
+        {
+          //效验唱票人与操作人不同
+          validator: (rule, value) => {
+            if (value === values.name1) {
+              return Promise.reject('唱票人与操作人不能相同')
+            }
+            return Promise.resolve()
+          },
+          trigger: ['change', 'blur'],
+        },
+      ]
     },
   },
   {

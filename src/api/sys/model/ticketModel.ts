@@ -1,13 +1,13 @@
 export interface AddTicketParams {
   name: string
 
-  teller: string
+  tellerId: number
 
-  operator: string
+  operatorId: number
 
   notice: string
 
-  publisher: string
+  publisherId: number
 
   siteId: number
 

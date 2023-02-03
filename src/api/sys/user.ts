@@ -34,6 +34,27 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
   )
 }
 
+export function getSiteUserApi(mode: ErrorMessageMode = 'modal') {
+  return defHttp.get<LoginResultModel>(
+    {
+      url: Api.Login + '/role/site',
+    },
+    {
+      errorMessageMode: mode,
+    },
+  )
+}
+export function getDispatchUserApi(mode: ErrorMessageMode = 'modal') {
+  return defHttp.get<LoginResultModel>(
+    {
+      url: Api.Login + '/role/dispatch',
+    },
+    {
+      errorMessageMode: mode,
+    },
+  )
+}
+
 /**
  * @description: user register api
  */
