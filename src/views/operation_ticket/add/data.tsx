@@ -8,7 +8,7 @@ export const step1Schemas: FormSchema[] = [
     colProps: {
       span: 24,
     },
-    //required: true,
+    required: true,
   },
   {
     field: 'site_side_name',
@@ -17,10 +17,10 @@ export const step1Schemas: FormSchema[] = [
     colProps: {
       span: 8,
     },
-    //required: true,
+    required: true,
   },
   {
-    field: '[startTime, endTime]',
+    field: 'start_end_time',
     label: '起止日期',
     component: 'RangePicker',
     componentProps: {
@@ -31,7 +31,7 @@ export const step1Schemas: FormSchema[] = [
     colProps: {
       span: 8,
     },
-    //required: true,
+    required: true,
   },
   {
     field: 'type',
@@ -66,7 +66,7 @@ export const step1Schemas: FormSchema[] = [
     field: 'name1',
     component: 'Input',
     label: '唱票人',
-    //required: true,
+    required: true,
     colProps: {
       span: 8,
     },
@@ -102,7 +102,7 @@ export const step1Schemas: FormSchema[] = [
     //required: true,
   },
   {
-    field: 'safety precautions',
+    field: 'safety_precautions',
     component: 'InputTextArea',
     label: '安全事项',
     componentProps: {
@@ -111,7 +111,7 @@ export const step1Schemas: FormSchema[] = [
     colProps: {
       span: 24,
     },
-    //required: true,
+    required: true,
   },
   {
     field: 'notes',

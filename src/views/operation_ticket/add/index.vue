@@ -14,6 +14,7 @@
         @next="handleStep2Next"
         v-show="current === 1"
         v-if="initSetp2"
+        :values="step1_Values"
       />
       <Step3 v-show="current === 2" @redo="handleRedo" v-if="initSetp3" />
     </div>
@@ -48,10 +49,11 @@
         initSetp3: false,
       })
 
+      const step1_Values = ref({})
       function handleStep1Next(step1Values: any) {
         current.value++
         state.initSetp2 = true
-        console.log(step1Values)
+        step1_Values.value = step1Values
       }
 
       function handleStepPrev() {
@@ -61,7 +63,7 @@
       function handleStep2Next(step2Values: any) {
         current.value++
         state.initSetp3 = true
-        console.log(step2Values)
+        console.log('step2Value', step2Values)
       }
 
       function handleRedo() {
@@ -71,6 +73,7 @@
       }
 
       return {
+        step1_Values,
         current,
         handleStep1Next,
         handleStep2Next,
