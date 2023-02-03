@@ -4,8 +4,8 @@ import {
   SiteParams,
   VideoParams,
   VideoResultModel,
-  deleteSiteParams
-} from "./model/siteModel";
+  deleteSiteParams,
+} from './model/siteModel'
 import { ErrorMessageMode } from '/#/axios'
 
 export enum Api {
@@ -27,7 +27,7 @@ export function getSiteApi(mode: ErrorMessageMode = 'modal') {
 export function videoApi(params: VideoParams, mode: ErrorMessageMode = 'modal') {
   return defHttp.uploadFile<VideoResultModel>(
     { url: Api.Video, params },
-    { file: params.file, errorMessageMode: mode },
+    { siteId: params.siteId, file: params.file, errorMessageMode: mode },
   )
 }
 

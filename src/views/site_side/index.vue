@@ -1,6 +1,6 @@
 <template>
   <PageWrapper title="现场侧情况">
-    <a-button type="primary" class="my-4" @click="send"> 添加现场侧 </a-button>
+    <a-button type="primary" class="my-4" @click="openModal4"> 添加现场侧 </a-button>
     <Card>
       <CardGrid v-for="site in sites" :key="site" class="!md:w-1/3 !w-full">
         <span class="flex">
@@ -22,7 +22,7 @@
             :maxSize="20"
             :maxNumber="1"
             :api="upload"
-            @click="updateSiteId"
+            @click="updateSiteId(site.id)"
           />
           <AButton
             type="danger"
@@ -55,32 +55,14 @@
   import { PageWrapper } from '/@/components/Page'
   import { createImgPreview, ImagePreview } from '/@/components/Preview/index'
   import {deleteSiteApi, getSiteApi, videoApi} from '/@/api/sys/site'
-  import { t } from '/@/hooks/web/useI18n'
+  import { useI18n } from '/@/hooks/web/useI18n'
   import {ExclamationCircleOutlined} from "@ant-design/icons-vue";
   import {useTabs} from "/@/hooks/web/useTabs";
   // import { PreviewActions } from '/@/components/Preview/src/typing';
 
   let siteId = ref(0)
 
-  const upload = async (file: any) => {
-    const res = await videoApi({
-      file: file.file,
-      siteId: siteId.value,
-    })
-    if (res) {
-      notification.success({
-        message: t('sys.site.videoSuccessTitle'),
-        duration: 2,
-      })
-      return true
-    } else {
-      notification.error({
-        message: t('sys.site.videoErrorTitle'),
-        duration: 2,
-      })
-      return false
-    }
-  }
+
   const imgList: string[] = ['https://picsum.photos/id/66/346/216']
   export default defineComponent({
     components: {
@@ -96,12 +78,31 @@
       ASpace: Space,
     },
     setup() {
+      const t = useI18n()
       const [register4, { openModal: openModal4 }] = useModal()
       const [register1, { openModal: openModal1 }] = useModal()
       const modalVisible = ref<Boolean>(false)
       const userData = ref<any>(null)
       const { refreshPage } = useTabs()
-
+      const upload = async (file: any) => {
+        const res = await videoApi({
+          file: file.file,
+          siteId: siteId.value,
+        })
+        if (res) {
+          notification.success({
+            message: '上传成功',
+            duration: 2,
+          })
+          return true
+        } else {
+          notification.error({
+            message: '上传失败',
+            duration: 2,
+          })
+          return false
+        }
+      }
       const updateSiteId = (id: number) => {
         siteId.value = id
         // console.log('siteId:', siteId.value)
@@ -122,7 +123,7 @@
           })
           if (res) {
             notification.success({
-              message: t('sys.site.siteSuccessTitle'),
+              message: '删除成功',
               duration: 2,
             })
           }
@@ -165,6 +166,7 @@
         modalVisible.value = true
       })
       return {
+        t,
         register1,
         getSiteApi,
         openModal1,
