@@ -2,11 +2,11 @@
   <div>
     <Space>
       <a-button type="primary" @click="openUploadModal" preIcon="carbon:cloud-upload">
-        {{ t('component.upload.upload') }}
+        接入视频
       </a-button>
       <Tooltip placement="bottom" v-if="showPreview">
         <template #title>
-          {{ t('component.upload.uploaded') }}
+          接入视频
           <template v-if="fileList.length">
             {{ fileList.length }}
           </template>

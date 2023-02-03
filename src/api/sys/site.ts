@@ -5,6 +5,7 @@ import {
   VideoParams,
   VideoResultModel,
   deleteSiteParams,
+  deleteVideoParams,
 } from './model/siteModel'
 import { ErrorMessageMode } from '/#/axios'
 
@@ -24,10 +25,24 @@ export function getSiteApi(mode: ErrorMessageMode = 'modal') {
   return defHttp.get<SiteResultModel>({ url: Api.Site }, { errorMessageMode: mode })
 }
 
-export function videoApi(params: VideoParams, mode: ErrorMessageMode = 'modal') {
+export function video1Api(params: VideoParams, mode: ErrorMessageMode = 'modal') {
   return defHttp.uploadFile<VideoResultModel>(
-    { url: Api.Video, params },
+    { url: Api.Video + '/' + 1, params },
     { siteId: params.siteId, file: params.file, errorMessageMode: mode },
+  )
+}
+
+export function video2Api(params: VideoParams, mode: ErrorMessageMode = 'modal') {
+  return defHttp.uploadFile<VideoResultModel>(
+    { url: Api.Video + '/' + 2, params },
+    { siteId: params.siteId, file: params.file, errorMessageMode: mode },
+  )
+}
+
+export function deleteVideoApi(params: deleteVideoParams, mode: ErrorMessageMode = 'modal') {
+  return defHttp.delete<VideoResultModel>(
+    { url: Api.Site + params.siteId + '/' + 'video' + '/' + params.video },
+    { errorMessageMode: mode },
   )
 }
 

@@ -14,6 +14,11 @@ export interface VideoParams {
   siteId: number
 }
 
+export interface deleteVideoParams {
+  siteId: number
+  video: string
+}
+
 export interface SiteResultModel {
   code: number
   msg: string
