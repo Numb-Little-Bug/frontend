@@ -2,41 +2,75 @@
   <PageWrapper title="现场侧情况">
     <a-button type="primary" class="my-4" @click="openModal4"> 添加现场侧 </a-button>
     <Card>
-      <CardGrid v-for="site in sites" :key="site" class="!md:w-1/3 !w-full">
-        <span class="flex">
-          <video
-            class="w-32 h-20"
-            controls
-            :src="site.video1"
-            :poster="site.video1"
-            style="object-fit: cover"
-          ></video>
-        </span>
-        <span class="flex">
-          <span class="text-lg ml-4">{{ site.id }} - {{ site.name }}</span>
-        </span>
-        <span class="flex">
-          <BasicUpload
-            :emptyHidePreview="true"
-            :showPreviewNumber="false"
-            :maxSize="20"
-            :maxNumber="1"
-            :api="upload"
-            @click="updateSiteId(site.id)"
-          />
-          <AButton
-            type="danger"
-            class="ml-4"
-            @click="
-              () => {
-                updateSiteId(site.id)
-                showDeleteConfirm()
-              }
-            "
-          >
-            删除现场侧
-          </AButton>
-        </span>
+      <CardGrid v-for="(site, index) in sites" :key="index" class="!md:w-1/3 !w-full">
+        <div style="padding-right: 0; width: 100%; display: flex; align-items: center">
+          <span style="font-size: 17px; font-weight: bold; width: 100%">名称：{{ site.name }}</span>
+          <a-button type="primary" style="right: 0; width: auto"> 管理现场侧 </a-button>
+        </div>
+        <Tabs v-model:activeKeys="activeKeys[index]">
+          <TabPane key="1" tab="监控1">
+            <span class="flex" style="margin-bottom: 10px">
+              <video controls :src="site.video1" style="width: 100%; height: 100%"></video>
+            </span>
+            <div style="display: flex; align-items: center">
+              <BasicUpload
+                :emptyHidePreview="true"
+                :showPreviewNumber="false"
+                :maxSize="20"
+                :maxNumber="1"
+                :api="upload"
+                @click="updateSiteId(site.id), updateActiveKey(index, 1), updateSiteClickedIndex(index)"
+                style="width: 100%"
+              />
+              <a-button
+                type="primary"
+                style="right: 0; width: auto"
+                @click="disconnectVideo(site.id, index, 'video1')"
+              >
+                断开连接
+              </a-button>
+            </div>
+          </TabPane>
+          <TabPane key="2" tab="监控2">
+            <span class="flex" style="margin-bottom: 10px">
+              <video
+                controls
+                :src="site.video2"
+                style="object-fit: cover; width: 100%; height: 100%"
+              ></video>
+            </span>
+            <div style="align-items: center; display: flex">
+              <BasicUpload
+                :emptyHidePreview="true"
+                :showPreviewNumber="false"
+                :maxSize="20"
+                :maxNumber="1"
+                :api="upload"
+                @click="updateSiteId(site.id), updateActiveKey(index, 2), updateSiteClickedIndex(index)"
+                style="width: 100%"
+              />
+              <a-button
+                type="primary"
+                style="right: 0; width: auto"
+                @click="disconnectVideo(site.id, index,'video2')"
+              >
+                断开连接
+              </a-button>
+            </div>
+          </TabPane>
+          <template #rightExtra>
+            <a-button
+              type="danger"
+              @click="
+                () => {
+                  updateSiteId(site.id)
+                  showDeleteConfirm()
+                }
+              "
+              >删除现场侧</a-button
+            >
+          </template>
+        </Tabs>
       </CardGrid>
     </Card>
     <Modal1 @register="register1" :sideId="siteId" />
@@ -47,21 +81,20 @@
   import Test from './Test.vue'
   import Modal1 from './Modal1.vue'
   import { BasicUpload } from '/@/components/Upload'
-  import {Card, CardGrid, Modal, notification} from 'ant-design-vue'
-  import {defineComponent, ref, nextTick, onMounted, createVNode} from 'vue'
+  import { Card, CardGrid, Modal, notification, Tabs, TabPane, Row, Table } from 'ant-design-vue'
+  import { defineComponent, ref, nextTick, onMounted, createVNode, onBeforeMount } from 'vue'
   import { Alert, Space } from 'ant-design-vue'
   import { useModal } from '/@/components/Modal'
   import Modal4 from './Modal4.vue'
   import { PageWrapper } from '/@/components/Page'
   import { createImgPreview, ImagePreview } from '/@/components/Preview/index'
-  import {deleteSiteApi, getSiteApi, videoApi} from '/@/api/sys/site'
+  import { deleteSiteApi, getSiteApi, video1Api, video2Api, deleteVideoApi } from '/@/api/sys/site'
   import { useI18n } from '/@/hooks/web/useI18n'
-  import {ExclamationCircleOutlined} from "@ant-design/icons-vue";
-  import {useTabs} from "/@/hooks/web/useTabs";
+  import { ExclamationCircleOutlined, DownloadOutlined } from '@ant-design/icons-vue'
+  import { useTabs } from '/@/hooks/web/useTabs'
   // import { PreviewActions } from '/@/components/Preview/src/typing';
 
   let siteId = ref(0)
-
 
   const imgList: string[] = ['https://picsum.photos/id/66/346/216']
   export default defineComponent({
@@ -76,6 +109,11 @@
       Alert,
       Modal4,
       ASpace: Space,
+      Tabs,
+      TabPane,
+      Row,
+      Table,
+      DownloadOutlined,
     },
     setup() {
       const t = useI18n()
@@ -84,16 +122,35 @@
       const modalVisible = ref<Boolean>(false)
       const userData = ref<any>(null)
       const { refreshPage } = useTabs()
+      let siteClickedIndex = ref(0)
+
+      const updateSiteClickedIndex = (index: number) => {
+        siteClickedIndex.value = index
+      }
+
       const upload = async (file: any) => {
-        const res = await videoApi({
-          file: file.file,
-          siteId: siteId.value,
-        })
+        console.log('activeKeys:', activeKeys)
+        let res: any = null
+        if (activeKeys.value[siteClickedIndex.value] === 1) {
+          res = await video1Api({
+            file: file.file,
+            siteId: siteId.value,
+          })
+        } else if (activeKeys.value[siteClickedIndex.value] === 2) {
+          res = await video2Api({
+            file: file.file,
+            siteId: siteId.value,
+          })
+        }
         if (res) {
           notification.success({
             message: '上传成功',
             duration: 2,
           })
+          // wait 2s to refresh page
+          setTimeout(() => {
+            refreshPage()
+          }, 2000)
           return true
         } else {
           notification.error({
@@ -106,6 +163,50 @@
       const updateSiteId = (id: number) => {
         siteId.value = id
         // console.log('siteId:', siteId.value)
+      }
+
+      const disconnectVideo = async (id: number, index: number, video: string) => {
+        console.log('断开连接')
+        console.log('id:', id)
+        console.log('video:', video)
+        console.log('index:', index)
+        if (video === 'video1') {
+          if (sites.value[index].video1 === '') {
+            notification.error({
+              message: '没有连接',
+              duration: 2,
+            })
+            return
+          }
+        } else {
+          if (sites.value[index].video2 === '') {
+            notification.error({
+              message: '没有连接',
+              duration: 2,
+            })
+            return
+          }
+        }
+        try {
+          await deleteVideoApi({
+            siteId: id,
+            video: video,
+          })
+          notification.success({
+            message: '断开连接成功',
+            duration: 2,
+          })
+          // wait 2s to refresh page
+          setTimeout(() => {
+            refreshPage()
+          }, 2000)
+        } catch (error) {
+          console.log('error:', error)
+          notification.error({
+            message: '断开连接失败',
+            duration: 2,
+          })
+        }
       }
 
       function openImg() {
@@ -132,7 +233,7 @@
 
       const showDeleteConfirm = () => {
         Modal.confirm({
-          title: '是否确认删除当前现场侧' + siteId.value,
+          title: '是否确认删除当前现场侧',
           icon: createVNode(ExclamationCircleOutlined),
           okText: '是',
           okType: 'danger',
@@ -149,11 +250,20 @@
       }
 
       let sites = ref<any>(null)
+      let activeKeys = ref<number[]>([])
+      const updateActiveKey = (index: number, value: number) => {
+        activeKeys.value[index] = value
+        console.log('activeKeys:', activeKeys.value)
+      }
       onMounted(async () => {
         try {
           const res = await getSiteApi()
           console.log('res:', res)
           sites.value = res
+          for (let i = 0; i < res.length; i++) {
+            activeKeys.value.push(1)
+          }
+          console.log('activeKeys:', activeKeys.value)
         } catch (e) {
           console.log(e)
         }
@@ -183,6 +293,10 @@
         showDeleteConfirm,
         deleteSite,
         refreshPage,
+        activeKeys,
+        updateActiveKey,
+        disconnectVideo,
+        updateSiteClickedIndex,
       }
     },
   })
