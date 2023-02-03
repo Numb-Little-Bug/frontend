@@ -1,7 +1,9 @@
 import { FormSchema } from '/@/components/Form'
 import { getSiteApi } from '/@/api/sys/site'
 import { getSiteUserApi } from '/@/api/sys/user'
+import { newStep } from './Step1.vue'
 
+// @ts-ignore
 export const step1Schemas: FormSchema[] = [
   {
     field: 'title',
@@ -111,15 +113,59 @@ export const step1Schemas: FormSchema[] = [
   },
   {
     field: 'step',
-    component: 'InputTextArea',
+    component: 'Divider',
     label: '操作步骤',
-    componentProps: {
-      rows: 14,
+    colProps: {
+      span: 20,
     },
+  },
+  {
+    field: 'new_step',
+    component: 'Input',
+    label: '',
+    colProps: {
+      span: 4,
+    },
+    render: ({ field, form }) => {
+      return (
+        <a-button style="float: right; margin-top: 10px;" type="primary" onClick="newStep">
+          新增步骤
+        </a-button>
+      )
+    },
+  },
+  {
+    field: 'step1',
+    component: 'Input',
+    label: '步骤1',
     colProps: {
       span: 24,
     },
-    //required: true,
+    required: true,
+  },
+  {
+    field: 'step2',
+    component: 'Input',
+    label: '步骤2',
+    colProps: {
+      span: 24,
+    },
+  },
+  {
+    field: 'step3',
+    component: 'Input',
+    label: '步骤3',
+    colProps: {
+      span: 24,
+    },
+  },
+  {
+    field: 'step_end',
+    component: 'Divider',
+    label: '',
+    colProps: {
+      span: 24,
+    },
   },
   {
     field: 'safety_precautions',
