@@ -2,19 +2,33 @@
   <div class="step1">
     <div class="step1-form">
       <BasicForm @register="register">
-        <template #fac>
-          <a-input-group compact>
-            <a-input class="pay-input" />
-          </a-input-group>
+        <template #customSlot>
+          <div style="display: flex">
+            <a-button
+              v-show="StepNum > 0"
+              style="float: right; margin-top: 10px"
+              type="danger"
+              @click="deleteStep"
+            >
+              删除步骤
+            </a-button>
+            <a-button
+              style="float: right; margin-top: 10px; margin-left: 10px"
+              type="primary"
+              @click="newStep"
+            >
+              新增步骤
+            </a-button>
+          </div>
         </template>
       </BasicForm>
     </div>
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
-  import { BasicForm, useForm } from '/@/components/Form'
-  import {step1Schemas } from './data'
+  import { defineComponent, ref } from 'vue'
+  import { BasicForm, FormSchema, useForm } from '/@/components/Form'
+  import { step1Schemas } from './data'
 
   import { Select, Input, Divider } from 'ant-design-vue'
   export default defineComponent({
@@ -27,7 +41,7 @@
     },
     emits: ['next'],
     setup(_, { emit }) {
-      const [register, { validate, appendSchemaByField }] = useForm({
+      const [register, { validate, appendSchemaByField, removeSchemaByField }] = useForm({
         labelWidth: 80,
         schemas: step1Schemas,
         actionColOptions: {
@@ -40,6 +54,76 @@
         submitFunc: customSubmitFunc,
       })
 
+      let StepNum = ref(0)
+
+      function newStep() {
+        const newStepSchema: FormSchema[] = [
+          {
+            field: 'step_desc_' + (StepNum.value + 1),
+            label: '步骤' + (StepNum.value + 1),
+            colProps: {
+              span: 12,
+            },
+            component: 'Input',
+            required: true,
+          },
+          {
+            field: 'step_type_' + (StepNum.value + 1),
+            label: '步骤类型',
+            colProps: {
+              span: 5,
+            },
+            component: 'Select',
+            componentProps: {
+              options: [
+                {
+                  label: '类型一',
+                  value: 1,
+                },
+                {
+                  label: '类型二',
+                  value: 2,
+                },
+                {
+                  label: '类型三',
+                  value: 3,
+                },
+              ],
+            },
+            required: true,
+          },
+          {
+            field: 'step_remark_' + (StepNum.value + 1),
+            label: '备注',
+            colProps: {
+              span: 7,
+            },
+            component: 'Input',
+          },
+          {
+            field: 'step' + (StepNum.value + 1),
+            label: '步骤' + (StepNum.value + 1),
+            colProps: {
+              span: 24,
+            },
+            component: 'Input',
+            show: false,
+          },
+        ]
+        appendSchemaByField(newStepSchema, 'step' + StepNum.value)
+        StepNum.value++
+      }
+
+      function deleteStep() {
+        if (StepNum.value > 0) {
+          removeSchemaByField('step_desc_' + StepNum.value)
+          removeSchemaByField('step_type_' + StepNum.value)
+          removeSchemaByField('step_remark_' + StepNum.value)
+          removeSchemaByField('step' + StepNum.value)
+          StepNum.value--
+        }
+      }
+
       async function customSubmitFunc() {
         try {
           const values = await validate()
@@ -47,13 +131,7 @@
           console.log(values)
         } catch (error) {}
       }
-
-      return { register }
-    },
-    methods: {
-      newStep() {
-        alert('newStep')
-      },
+      return { register, newStep, deleteStep, StepNum }
     },
   })
 </script>
