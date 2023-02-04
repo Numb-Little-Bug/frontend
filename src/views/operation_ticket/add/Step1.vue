@@ -5,7 +5,7 @@
         <template #customSlot>
           <div style="display: flex">
             <a-button
-              v-show="StepNum > 0"
+              v-show="StepNum > 1"
               style="float: right; margin-top: 10px"
               type="danger"
               @click="deleteStep"
@@ -54,7 +54,7 @@
         submitFunc: customSubmitFunc,
       })
 
-      let StepNum = ref(0)
+      let StepNum = ref(1)
 
       function newStep() {
         const newStepSchema: FormSchema[] = [
@@ -115,7 +115,7 @@
       }
 
       function deleteStep() {
-        if (StepNum.value > 0) {
+        if (StepNum.value > 1) {
           removeSchemaByField('step_desc_' + StepNum.value)
           removeSchemaByField('step_type_' + StepNum.value)
           removeSchemaByField('step_remark_' + StepNum.value)

@@ -21,13 +21,13 @@ export const step1Schemas: FormSchema[] = [
     colProps: {
       span: 6,
     },
-    required: true,
     componentProps: {
       api: () => getSiteApi(),
       valueField: 'id',
       labelField: 'name',
       immediate: false,
     },
+    required: true,
   },
   {
     field: 'start_end_time',
@@ -127,6 +127,57 @@ export const step1Schemas: FormSchema[] = [
       span: 4,
     },
     slot: 'customSlot',
+  },
+  {
+    field: 'step_desc_1',
+    label: '步骤1',
+    colProps: {
+      span: 12,
+    },
+    component: 'Input',
+    required: true,
+  },
+  {
+    field: 'step_type_1',
+    label: '步骤类型',
+    colProps: {
+      span: 5,
+    },
+    component: 'Select',
+    componentProps: {
+      options: [
+        {
+          label: '类型一',
+          value: 1,
+        },
+        {
+          label: '类型二',
+          value: 2,
+        },
+        {
+          label: '类型三',
+          value: 3,
+        },
+      ],
+    },
+    required: true,
+  },
+  {
+    field: 'step_remark_1',
+    label: '备注',
+    colProps: {
+      span: 7,
+    },
+    component: 'Input',
+  },
+  {
+    field: 'step1',
+    label: '步骤1',
+    colProps: {
+      span: 24,
+    },
+    component: 'Input',
+    show: false,
   },
   {
     field: 'step_end',

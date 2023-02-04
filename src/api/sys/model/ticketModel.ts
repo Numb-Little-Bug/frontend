@@ -25,3 +25,15 @@ export interface TicketResultModel {
   msg: string
   obj: any
 }
+
+export interface OperationParams {
+  type: string
+  description: string
+  stepNumber: number
+  ticketId: number | null
+  notice: string
+}
+
+export interface addOperationsParams {
+  operations: OperationParams[]
+}

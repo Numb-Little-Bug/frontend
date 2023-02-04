@@ -24,11 +24,11 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, ref } from 'vue'
+  import { defineComponent, ref, reactive } from 'vue'
   import { BasicForm, useForm } from '/@/components/Form'
   import { Alert, Divider, Descriptions } from 'ant-design-vue'
-  import { addTicketApi } from '/@/api/sys/ticket'
-  import { AddTicketParams } from '/@/api/sys/model/ticketModel'
+  import { addOperationsApi, addTicketApi } from '/@/api/sys/ticket'
+  import { AddTicketParams, OperationParams } from '/@/api/sys/model/ticketModel'
   import { getUserInfo } from '/@/api/sys/user'
 
   export default defineComponent({
@@ -80,13 +80,42 @@
         status: 0,
       }
 
-      function getValues() {
-        //TODO: _.values里面的值需要排版后提交
+      const operations: OperationParams[] = reactive([])
+      function getOperations() {
+        for (let value in _.values) {
+          if (value.split('_')[0] === 'step') {
+            const stepNumber = Number(value.split('_')[2])
+            if (operations.length < stepNumber) {
+              operations.push({
+                ticketId: null,
+                stepNumber: stepNumber,
+                description: '',
+                notice: '',
+                type: '',
+              })
+              if (value.split('_')[1] === 'desc') {
+                operations[stepNumber - 1].description = _.values[value]
+              } else if (value.split('_')[1] === 'remark') {
+                operations[stepNumber - 1].notice = _.values[value]
+              } else if (value.split('_')[1] === 'type') {
+                operations[stepNumber - 1].type = _.values[value]
+              }
+            } else {
+              console.log(value.split('_')[1])
+              if (value.split('_')[1] === 'desc') {
+                operations[stepNumber - 1].description = _.values[value]
+              } else if (value.split('_')[1] === 'remark') {
+                operations[stepNumber - 1].notice = _.values[value]
+              } else if (value.split('_')[1] === 'type') {
+                operations[stepNumber - 1].type = _.values[value]
+              }
+            }
+          }
+        }
       }
       async function customSubmitFunc() {
         try {
           UserId.value = await getUserId()
-          console.log(UserId.value)
           const Step2_values = await validate()
           await setProps({
             submitButtonOptions: {
@@ -105,7 +134,15 @@
             remark: _.values.notes,
             status: 0,
           }
-          await addTicketApi(Ticket)
+          getOperations()
+          console.log('operations', operations)
+          const ticket_id = await addTicketApi(Ticket)
+          console.log('ticket_id', ticket_id)
+          for (let i = 0; i < operations.length; i++) {
+            operations[i].ticketId = Number(ticket_id)
+          }
+          console.log('operations', operations)
+          await addOperationsApi(operations)
           setTimeout(() => {
             setProps({
               submitButtonOptions: {
