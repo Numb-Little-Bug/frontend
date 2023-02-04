@@ -1,21 +1,33 @@
 <template>
   <div class="step2">
+    <div v-show="false">{{ initName() }}</div>
+    <div v-show="false">{{ getOperations() }}</div>
     <a-alert message="请确认操作票信息正确无误" show-icon />
     <a-descriptions :column="1" class="mt-5">
       <a-descriptions-item label="任务名称"> {{ values.title }} </a-descriptions-item>
     </a-descriptions>
     <a-descriptions :column="3" class="mt-5">
-      <a-descriptions-item label="现场侧名"> {{ values.site_side_name }} </a-descriptions-item>
+      <a-descriptions-item label="现场侧名"> {{ siteName }} </a-descriptions-item>
       <a-descriptions-item label="起止时间">
-        {{ values.start_end_time[0] }} - {{ values.start_end_time[1] }}</a-descriptions-item
+        {{ msToDate(values.start_end_time[0]).hasTime }} -
+        {{ msToDate(values.start_end_time[1]).hasTime }}</a-descriptions-item
       >
-      <a-descriptions-item label="类别"> {{ values.type }}</a-descriptions-item>
-      <a-descriptions-item label="唱票人"> {{ values.name1 }} </a-descriptions-item>
-      <a-descriptions-item label="操作人"> {{ values.operator_name }} </a-descriptions-item>
-      <a-descriptions-item label="发布人"> {{}} </a-descriptions-item>
+    </a-descriptions>
+    <a-descriptions :column="3" class="mt-5">
+      <a-descriptions-item label="唱票人"> {{ tellerName }} </a-descriptions-item>
+      <a-descriptions-item label="操作人"> {{ operatorName }} </a-descriptions-item>
+      <a-descriptions-item label="发布人"> {{ publisherName }} </a-descriptions-item>
+    </a-descriptions>
+    <div style="margin-top: 10px">操作步骤：</div>
+    <a-descriptions :column="7" class="mt-5" v-for="(item, index) in operations">
+      <a-descriptions-item label="次序" span="1"> {{ index + 1 }} </a-descriptions-item>
+      <a-descriptions-item label="描述" span="3">
+        {{ item.description }}
+      </a-descriptions-item>
+      <a-descriptions-item label="类型" span="1"> {{ item.type }} </a-descriptions-item>
+      <a-descriptions-item label="备注" span="2"> {{ item.notice }} </a-descriptions-item>
     </a-descriptions>
     <a-descriptions :column="1" class="mt-5">
-      <a-descriptions-item label="操作步骤"> {{ values.step }} </a-descriptions-item>
       <a-descriptions-item label="安全事项"> {{ values.safety_precautions }} </a-descriptions-item>
       <a-descriptions-item label="备注"> {{ values.notes }} </a-descriptions-item>
     </a-descriptions>
@@ -24,10 +36,10 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, reactive } from 'vue'
+import {defineComponent, ref, reactive, onMounted, computed} from 'vue'
   import { BasicForm, useForm } from '/@/components/Form'
   import { Alert, Divider, Descriptions } from 'ant-design-vue'
-  import { addOperationsApi, addTicketApi } from '/@/api/sys/ticket'
+  import { addOperationsApi, addTicketApi, getUsernameByIdApi, getSiteNameByIdApi } from '/@/api/sys/ticket'
   import { AddTicketParams, OperationParams } from '/@/api/sys/model/ticketModel'
   import { getUserInfo } from '/@/api/sys/user'
 
@@ -57,6 +69,41 @@
         submitFunc: customSubmitFunc,
       })
 
+      function msToDate (msec) {
+        let datetime = new Date(msec);
+        let year = datetime.getFullYear();
+        let month = datetime.getMonth();
+        let date = datetime.getDate();
+        let hour = datetime.getHours();
+        let minute = datetime.getMinutes();
+        let second = datetime.getSeconds();
+
+        let result1 = year +
+          '-' +
+          ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) +
+          '-' +
+          ((date + 1) < 10 ? '0' + date : date) +
+          ' ' +
+          ((hour + 1) < 10 ? '0' + hour : hour) +
+          ':' +
+          ((minute + 1) < 10 ? '0' + minute : minute) +
+          ':' +
+          ((second + 1) < 10 ? '0' + second : second);
+
+        let result2 = year +
+          '-' +
+          ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) +
+          '-' +
+          ((date + 1) < 10 ? '0' + date : date);
+
+        let result = {
+          hasTime: result1,
+          withoutTime: result2
+        };
+
+        return result;
+      }
+
       async function customResetFunc() {
         emit('prev')
       }
@@ -66,6 +113,30 @@
         return res.id
       }
       const UserId = ref('')
+
+      let siteName = ref('')
+      let tellerName = ref('')
+      let operatorName = ref('')
+      let publisherName = ref('')
+
+      const initName = async () => {
+        // 唱票人姓名
+        const res = await getUsernameByIdApi(_.values.name1)
+        console.log(res.name)
+        tellerName.value = res.name
+        // 操作人姓名
+        const res1 = await getUsernameByIdApi(_.values.operator_name)
+        console.log(res1.name)
+        operatorName.value = res1.name
+        // 发布人姓名
+        const res2 = await getUserInfo()
+        console.log(res2.name)
+        publisherName.value = res2.name
+        // 现场侧名
+        const res3 = await getSiteNameByIdApi(_.values.site_side_name)
+        console.log(res3.name)
+        siteName.value = res3.name
+      }
 
       let Ticket: AddTicketParams = {
         name: _.values.title,
@@ -153,13 +224,13 @@
           }, 1500)
         } catch (error) {}
       }
-      return { register }
+      return { register, initName, getOperations, msToDate, siteName, tellerName, operatorName, publisherName, operations }
     },
   })
 </script>
 <style lang="less" scoped>
   .step2 {
-    width: 450px;
+    width: 750px;
     margin: 0 auto;
   }
 </style>

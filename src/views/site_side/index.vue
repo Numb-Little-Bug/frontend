@@ -8,7 +8,12 @@
           <a-button
             type="primary"
             style="right: 0; width: auto"
-            @click="manageSite(site.id), updateSiteClickedIndex(index)"
+            @click="
+              updateSiteId(site.id),
+                getSiteInfoById(site.id),
+                manageSite(site),
+                updateSiteClickedIndex(index)
+            "
           >
             管理现场侧
           </a-button>
@@ -83,8 +88,9 @@
         </Tabs>
       </CardGrid>
     </Card>
-    <Modal1 @register="register1" :sideId="siteId" />
+    <Modal1 @register="register1" :site-Id="siteId" />
     <Modal4 @register="register4" />
+    <Modal5 @register="register5" :site="currentSiteClicked" />
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -96,9 +102,17 @@
   import { Alert, Space } from 'ant-design-vue'
   import { useModal } from '/@/components/Modal'
   import Modal4 from './Modal4.vue'
+  import Modal5 from './Modal5.vue'
   import { PageWrapper } from '/@/components/Page'
   import { createImgPreview, ImagePreview } from '/@/components/Preview/index'
-  import { deleteSiteApi, getSiteApi, video1Api, video2Api, deleteVideoApi } from '/@/api/sys/site'
+  import {
+    deleteSiteApi,
+    getSiteApi,
+    video1Api,
+    video2Api,
+    deleteVideoApi,
+    getSiteByIdApi,
+  } from '/@/api/sys/site'
   import { useI18n } from '/@/hooks/web/useI18n'
   import { ExclamationCircleOutlined, DownloadOutlined } from '@ant-design/icons-vue'
   import { useTabs } from '/@/hooks/web/useTabs'
@@ -124,17 +138,33 @@
       Row,
       Table,
       DownloadOutlined,
+      Modal5,
     },
     setup() {
       const t = useI18n()
       const [register4, { openModal: openModal4 }] = useModal()
       const [register1, { openModal: openModal1 }] = useModal()
+      const [register5, { openModal: openModal5 }] = useModal()
       const modalVisible = ref<Boolean>(false)
       const userData = ref<any>(null)
       const { refreshPage } = useTabs()
       let siteClickedIndex = ref(0)
-      const manageSite = (siteId: number) => {
-        alert(siteId)
+      const manageSite = (site: any) => {
+        if (site.video1 === '' && site.video2 === '') {
+          notification.error({
+            message: '没有连接',
+            duration: 2,
+          })
+          return
+        }
+        openModal5()
+      }
+      const currentSiteClicked = ref<any>(0)
+      const getSiteInfoById = async (siteId: number) => {
+        const res = await getSiteByIdApi(siteId)
+        if (res) {
+          currentSiteClicked.value = res
+        }
       }
       const updateSiteClickedIndex = (index: number) => {
         siteClickedIndex.value = index
@@ -310,6 +340,11 @@
         disconnectVideo,
         updateSiteClickedIndex,
         manageSite,
+        register5,
+        openModal5,
+        siteClickedIndex,
+        getSiteInfoById,
+        currentSiteClicked,
       }
     },
   })
