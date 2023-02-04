@@ -12,7 +12,7 @@
       <a-descriptions-item label="类别"> {{ values.type }}</a-descriptions-item>
       <a-descriptions-item label="唱票人"> {{ values.name1 }} </a-descriptions-item>
       <a-descriptions-item label="操作人"> {{ values.operator_name }} </a-descriptions-item>
-      <a-descriptions-item label="发布人"> {{  }} </a-descriptions-item>
+      <a-descriptions-item label="发布人"> {{}} </a-descriptions-item>
     </a-descriptions>
     <a-descriptions :column="1" class="mt-5">
       <a-descriptions-item label="操作步骤"> {{ values.step }} </a-descriptions-item>
@@ -79,6 +79,10 @@
         remark: _.values.notes,
         status: 0,
       }
+
+      function getValues() {
+        //TODO: _.values里面的值需要排版后提交
+      }
       async function customSubmitFunc() {
         try {
           UserId.value = await getUserId()
@@ -110,10 +114,8 @@
             })
             emit('next', Step2_values)
           }, 1500)
-        } catch (error) {
-        }
+        } catch (error) {}
       }
-
       return { register }
     },
   })

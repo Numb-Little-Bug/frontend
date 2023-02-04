@@ -120,44 +120,13 @@ export const step1Schemas: FormSchema[] = [
     },
   },
   {
-    field: 'new_step',
+    field: 'step0',
     component: 'Input',
     label: '',
     colProps: {
       span: 4,
     },
-    render: ({ field, form }) => {
-      return (
-        <a-button style="float: right; margin-top: 10px;" type="primary" onClick="newStep">
-          新增步骤
-        </a-button>
-      )
-    },
-  },
-  {
-    field: 'step1',
-    component: 'Input',
-    label: '步骤1',
-    colProps: {
-      span: 24,
-    },
-    required: true,
-  },
-  {
-    field: 'step2',
-    component: 'Input',
-    label: '步骤2',
-    colProps: {
-      span: 24,
-    },
-  },
-  {
-    field: 'step3',
-    component: 'Input',
-    label: '步骤3',
-    colProps: {
-      span: 24,
-    },
+    slot: 'customSlot',
   },
   {
     field: 'step_end',
