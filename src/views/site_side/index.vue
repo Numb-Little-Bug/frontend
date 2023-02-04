@@ -5,7 +5,13 @@
       <CardGrid v-for="(site, index) in sites" :key="index" class="!md:w-1/3 !w-full">
         <div style="padding-right: 0; width: 100%; display: flex; align-items: center">
           <span style="font-size: 17px; font-weight: bold; width: 100%">名称：{{ site.name }}</span>
-          <a-button type="primary" style="right: 0; width: auto"> 管理现场侧 </a-button>
+          <a-button
+            type="primary"
+            style="right: 0; width: auto"
+            @click="manageSite(site.id), updateSiteClickedIndex(index)"
+          >
+            管理现场侧
+          </a-button>
         </div>
         <Tabs v-model:activeKeys="activeKeys[index]">
           <TabPane key="1" tab="监控1">
@@ -19,7 +25,9 @@
                 :maxSize="20"
                 :maxNumber="1"
                 :api="upload"
-                @click="updateSiteId(site.id), updateActiveKey(index, 1), updateSiteClickedIndex(index)"
+                @click="
+                  updateSiteId(site.id), updateActiveKey(index, 1), updateSiteClickedIndex(index)
+                "
                 style="width: 100%"
               />
               <a-button
@@ -46,13 +54,15 @@
                 :maxSize="20"
                 :maxNumber="1"
                 :api="upload"
-                @click="updateSiteId(site.id), updateActiveKey(index, 2), updateSiteClickedIndex(index)"
+                @click="
+                  updateSiteId(site.id), updateActiveKey(index, 2), updateSiteClickedIndex(index)
+                "
                 style="width: 100%"
               />
               <a-button
                 type="primary"
                 style="right: 0; width: auto"
-                @click="disconnectVideo(site.id, index,'video2')"
+                @click="disconnectVideo(site.id, index, 'video2')"
               >
                 断开连接
               </a-button>
@@ -67,8 +77,8 @@
                   showDeleteConfirm()
                 }
               "
-              >删除现场侧</a-button
-            >
+              >删除现场侧
+            </a-button>
           </template>
         </Tabs>
       </CardGrid>
@@ -123,7 +133,9 @@
       const userData = ref<any>(null)
       const { refreshPage } = useTabs()
       let siteClickedIndex = ref(0)
-
+      const manageSite = (siteId: number) => {
+        alert(siteId)
+      }
       const updateSiteClickedIndex = (index: number) => {
         siteClickedIndex.value = index
       }
@@ -297,6 +309,7 @@
         updateActiveKey,
         disconnectVideo,
         updateSiteClickedIndex,
+        manageSite,
       }
     },
   })

@@ -3,20 +3,16 @@
     <div class="step1-form">
       <BasicForm @register="register">
         <template #customSlot>
-          <div style="display: flex">
+          <div>
             <a-button
               v-show="StepNum > 1"
-              style="float: right; margin-top: 10px"
+              style="margin-top: 10px"
               type="danger"
               @click="deleteStep"
             >
               删除步骤
             </a-button>
-            <a-button
-              style="float: right; margin-top: 10px; margin-left: 10px"
-              type="primary"
-              @click="newStep"
-            >
+            <a-button style="float: right; margin-top: 10px" type="primary" @click="newStep">
               新增步骤
             </a-button>
           </div>

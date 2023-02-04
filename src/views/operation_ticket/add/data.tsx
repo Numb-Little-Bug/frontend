@@ -1,7 +1,7 @@
 import { FormSchema } from '/@/components/Form'
 import { getSiteApi } from '/@/api/sys/site'
 import { getSiteUserApi } from '/@/api/sys/user'
-import { newStep } from './Step1.vue'
+import newStep from './Step1.vue'
 
 // @ts-ignore
 export const step1Schemas: FormSchema[] = [
@@ -19,7 +19,7 @@ export const step1Schemas: FormSchema[] = [
     component: 'ApiSelect',
     label: '现场侧名',
     colProps: {
-      span: 6,
+      span: 12,
     },
     componentProps: {
       api: () => getSiteApi(),
@@ -27,7 +27,15 @@ export const step1Schemas: FormSchema[] = [
       labelField: 'name',
       immediate: false,
     },
-    required: true,
+    dynamicRules: ({ values }) => {
+      return [
+        {
+          required: true,
+          message: '现场侧名不能为空',
+          trigger: ['blur'],
+        },
+      ]
+    },
   },
   {
     field: 'start_end_time',
@@ -49,7 +57,7 @@ export const step1Schemas: FormSchema[] = [
     label: '唱票人',
     required: true,
     colProps: {
-      span: 8,
+      span: 12,
     },
     componentProps: {
       api: () => getSiteUserApi(),
@@ -61,8 +69,8 @@ export const step1Schemas: FormSchema[] = [
       return [
         {
           required: true,
-          message: '操作人不能为空',
-          trigger: ['change', 'blur'],
+          message: '唱票人不能为空',
+          trigger: ['blur'],
         },
         {
           //效验唱票人与操作人不同
@@ -83,7 +91,7 @@ export const step1Schemas: FormSchema[] = [
     label: '操作人',
     //required: true,
     colProps: {
-      span: 8,
+      span: 12,
     },
     componentProps: {
       api: () => getSiteUserApi(),
@@ -96,7 +104,7 @@ export const step1Schemas: FormSchema[] = [
         {
           required: true,
           message: '操作人不能为空',
-          trigger: ['change', 'blur'],
+          trigger: ['blur'],
         },
         {
           //效验唱票人与操作人不同
@@ -116,7 +124,7 @@ export const step1Schemas: FormSchema[] = [
     component: 'Divider',
     label: '操作步骤',
     colProps: {
-      span: 20,
+      span: 19,
     },
   },
   {
@@ -124,7 +132,7 @@ export const step1Schemas: FormSchema[] = [
     component: 'Input',
     label: '',
     colProps: {
-      span: 4,
+      span: 5,
     },
     slot: 'customSlot',
   },
