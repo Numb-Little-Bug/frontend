@@ -25,6 +25,10 @@ export function getSiteApi(mode: ErrorMessageMode = 'modal') {
   return defHttp.get<SiteResultModel>({ url: Api.Site }, { errorMessageMode: mode })
 }
 
+export function getSiteByIdApi(params: number, mode: ErrorMessageMode = 'modal') {
+  return defHttp.get<SiteResultModel>({ url: Api.Site + '/' + params }, { errorMessageMode: mode })
+}
+
 export function video1Api(params: VideoParams, mode: ErrorMessageMode = 'modal') {
   return defHttp.uploadFile<VideoResultModel>(
     { url: Api.Video + '/' + 1, params },
