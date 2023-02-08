@@ -37,3 +37,8 @@ export interface OperationParams {
 export interface addOperationsParams {
   operations: OperationParams[]
 }
+
+//export type getTicketByIdResultModel = AddTicketParams[]
+export interface getTicketByIdResultModel {
+  tickets: AddTicketParams[]
+}
