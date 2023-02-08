@@ -3,6 +3,7 @@ import {
   AddTicketParams,
   TicketResultModel,
   OperationParams,
+  getTicketByIdResultModel,
 } from './model/ticketModel'
 import { ErrorMessageMode } from '/#/axios'
 
@@ -37,3 +38,14 @@ export function getSiteNameByIdApi(params: number, mode: ErrorMessageMode = 'mod
     { errorMessageMode: mode },
   )
 }
+
+export function getTicketByIdApi(params: number, mode: ErrorMessageMode = 'modal') {
+  return defHttp.get<getTicketByIdResultModel>(
+    { url: Api.Ticket + '/teller/' + params },
+    { errorMessageMode: mode },
+  )
+}
+
+/*export function getTicketByIdApi(mode: ErrorMessageMode = 'modal') {
+  return defHttp.get<getTicketByIdResultModel>({ url: Api.Ticket }, { errorMessageMode: mode })
+}*/
