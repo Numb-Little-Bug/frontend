@@ -10,7 +10,7 @@ import { router } from '/@/router'
 import { PermissionModeEnum } from '/@/enums/appEnum'
 import { pathToRegexp } from 'path-to-regexp'
 
-const modules = import.meta.globEager('./modules/**/*.ts')
+const modules = import.meta.globEager('.modules/**/*.ts')
 
 const menuModules: MenuModule[] = []
 
@@ -40,33 +40,44 @@ const isRoleMode = () => {
   return getPermissionMode() === PermissionModeEnum.ROLE
 }
 
-const staticMenus: Menu[] = []
-;(() => {
+const staticMenus: Menu[] = [];
+(() => {
   menuModules.sort((a, b) => {
-    return (a.orderNo || 0) - (b.orderNo || 0)
-  })
+    return (a.orderNo || 0) - (b.orderNo || 0);
+  });
 
   for (const menu of menuModules) {
-    staticMenus.push(transformMenuModule(menu))
+    staticMenus.push(transformMenuModule(menu));
   }
-})()
+})();
 
 async function getAsyncMenus() {
+  console.log('enter getAsyncMenus')
   const permissionStore = usePermissionStore()
   if (isBackMode()) {
-    return permissionStore.getBackMenuList.filter((item) => !item.meta?.hideMenu && !item.hideMenu)
+    const res = permissionStore.getBackMenuList.filter(
+      (item) => !item.meta?.hideMenu && !item.hideMenu,
+    )
+    return res
   }
   if (isRouteMappingMode()) {
-    return permissionStore.getFrontMenuList.filter((item) => !item.hideMenu)
+    const res = permissionStore.getFrontMenuList.filter((item) => !item.hideMenu)
+    return res
   }
-  return staticMenus
+  if (isRoleMode()) {
+    const res = staticMenus
+    return res
+  }
 }
 
 export const getMenus = async (): Promise<Menu[]> => {
   const menus = await getAsyncMenus()
   if (isRoleMode()) {
     const routes = router.getRoutes()
-    return filter(menus, basicFilter(routes))
+    console.log('router.getRoutes()', routes)
+    const res = filter(menus, basicFilter(routes))
+    console.log('filter(menus, basicFilter(routes))', res)
+    return res
   }
   return menus
 }

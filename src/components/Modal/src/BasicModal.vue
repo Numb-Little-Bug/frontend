@@ -203,7 +203,17 @@
         }
       }
 
-      function handleOk(e: Event) {
+      async function handleOk(e: Event) {
+        e?.stopPropagation()
+        // 过滤自定义关闭按钮的空白区域
+        if ((e.target as HTMLElement)?.classList?.contains(prefixCls + '-close--custom')) return
+        if (props.closeFunc && isFunction(props.closeFunc)) {
+          const isClose: boolean = await props.closeFunc()
+          visibleRef.value = !isClose
+          return
+        }
+
+        visibleRef.value = false
         emit('ok', e)
       }
 

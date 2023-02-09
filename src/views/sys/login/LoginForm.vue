@@ -8,11 +8,11 @@
     v-show="getShow"
     @keypress.enter="handleLogin"
   >
-    <FormItem name="account" class="enter-x">
+    <FormItem name="tel" class="enter-x">
       <Input
         size="large"
-        v-model:value="formData.account"
-        :placeholder="t('sys.login.userName')"
+        v-model:value="formData.tel"
+        :placeholder="t('sys.login.mobile')"
         class="fix-auto-fill"
       />
     </FormItem>
@@ -79,6 +79,7 @@
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin'
   import { useDesign } from '/@/hooks/web/useDesign'
   //import { onKeyStroke } from '@vueuse/core';
+  import { sha256 } from 'js-sha256'
 
   const ACol = Col
   const ARow = Row
@@ -95,10 +96,9 @@
   const formRef = ref()
   const loading = ref(false)
   const rememberMe = ref(false)
-
   const formData = reactive({
-    account: 'vben',
-    password: '123456',
+    tel: '',
+    password: '',
   })
 
   const { validForm } = useFormValid(formRef)
@@ -113,14 +113,15 @@
     try {
       loading.value = true
       const userInfo = await userStore.login({
-        password: data.password,
-        username: data.account,
+        password: sha256(data.password),
+        tel: data.tel,
         mode: 'none', //不要默认的错误提示
       })
+      console.log(userInfo)
       if (userInfo) {
         notification.success({
           message: t('sys.login.loginSuccessTitle'),
-          description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.realName}`,
+          description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.name}`,
           duration: 3,
         })
       }

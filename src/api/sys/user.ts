@@ -1,12 +1,20 @@
 import { defHttp } from '/@/utils/http/axios'
-import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel'
+import {
+  LoginParams,
+  RegisterParams,
+  RegisterResultModel,
+  LoginResultModel,
+  GetUserInfoModel,
+} from './model/userModel'
 
 import { ErrorMessageMode } from '/#/axios'
 
+//TODO:修改这个文件来和后端交互，这里是用户登陆的逻辑
 enum Api {
-  Login = '/login',
-  Logout = '/logout',
-  GetUserInfo = '/getUserInfo',
+  Login = '/user_api',
+  Register = '/user_api',
+  Logout = '/user_api/logout',
+  GetUserInfo = '/user_api',
   GetPermCode = '/getPermCode',
   TestRetry = '/testRetry',
 }
@@ -17,13 +25,51 @@ enum Api {
 export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') {
   return defHttp.post<LoginResultModel>(
     {
-      url: Api.Login,
+      url: Api.Login + '/' + params.tel,
       params,
     },
     {
       errorMessageMode: mode,
     },
   )
+}
+
+export function getSiteUserApi(mode: ErrorMessageMode = 'modal') {
+  return defHttp.get<LoginResultModel>(
+    {
+      url: Api.Login + '/role/site',
+    },
+    {
+      errorMessageMode: mode,
+    },
+  )
+}
+export function getDispatchUserApi(mode: ErrorMessageMode = 'modal') {
+  return defHttp.get<LoginResultModel>(
+    {
+      url: Api.Login + '/role/dispatch',
+    },
+    {
+      errorMessageMode: mode,
+    },
+  )
+}
+
+/**
+ * @description: user register api
+ */
+export function registerApi(params: RegisterParams, mode: ErrorMessageMode = 'modal') {
+  const ret = defHttp.post<RegisterResultModel>(
+    {
+      url: Api.Register,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  )
+  console.log(ret)
+  return ret
 }
 
 /**

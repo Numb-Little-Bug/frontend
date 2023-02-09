@@ -1,12 +1,12 @@
 <template>
   <div :class="prefixCls">
-    <span> {{ title }}</span>
+    <span>{{ title }}</span>
     <Select
       v-bind="getBindValue"
       :class="`${prefixCls}-select`"
       @change="handleChange"
       :disabled="disabled"
-      size="small"
+      size="large"
       :options="options"
     />
   </div>

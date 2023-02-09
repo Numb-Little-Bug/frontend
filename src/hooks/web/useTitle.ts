@@ -8,7 +8,7 @@ import { useLocaleStore } from '/@/store/modules/locale'
 import { REDIRECT_NAME } from '/@/router/constant'
 
 /**
- * Listening to page changes and dynamically changing site titles
+ * Listening to page changes and dynamically changing site_side titles
  */
 export function useTitle() {
   const { title } = useGlobSetting()

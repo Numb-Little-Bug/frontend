@@ -92,14 +92,19 @@ export const useUserStore = defineStore({
         const { goHome = true, mode, ...loginParams } = params
         const data = await loginApi(loginParams, mode)
         const { token } = data
-
+        console.log('data:', data)
         // save token
+        console.log('token:', token)
         this.setToken(token)
         return this.afterLoginAction(goHome)
       } catch (error) {
         return Promise.reject(error)
       }
     },
+    /**
+     * @description: After the login is successful, get the user information and set it
+     * @param goHome
+     */
     async afterLoginAction(goHome?: boolean): Promise<GetUserInfoModel | null> {
       if (!this.getToken) return null
       // get user info
@@ -112,10 +117,12 @@ export const useUserStore = defineStore({
         const permissionStore = usePermissionStore()
         if (!permissionStore.isDynamicAddedRoute) {
           const routes = await permissionStore.buildRoutesAction()
+          console.log(routes)
           routes.forEach((route) => {
             router.addRoute(route as unknown as RouteRecordRaw)
           })
           router.addRoute(PAGE_NOT_FOUND_ROUTE as unknown as RouteRecordRaw)
+          console.log(router.getRoutes())
           permissionStore.setDynamicAddedRoute(true)
         }
         goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME))
@@ -127,7 +134,9 @@ export const useUserStore = defineStore({
       const userInfo = await getUserInfo()
       const { roles = [] } = userInfo
       if (isArray(roles)) {
+        console.log('roles:', roles)
         const roleList = roles.map((item) => item.value) as RoleEnum[]
+        console.log('roleList:', roleList)
         this.setRoleList(roleList)
       } else {
         userInfo.roles = []

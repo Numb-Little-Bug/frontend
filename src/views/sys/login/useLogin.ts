@@ -50,6 +50,31 @@ export function useFormRules(formData?: Recordable) {
     return !value ? Promise.reject(t('sys.login.policyPlaceholder')) : Promise.resolve()
   }
 
+  const validateTel = async (_: RuleObject, value: string) => {
+    if (!value) {
+      return Promise.reject(t('sys.login.mobilePlaceholder'))
+    }
+    if (!/^1[3|4|5|7|8|9][0-9]\d{8}$/.test(value)) {
+      return Promise.reject(t('sys.login.telFormatError'))
+    }
+    return Promise.resolve()
+  }
+
+  const validatePassword = () => {
+    return async (_: RuleObject, value: string) => {
+      if (!value) {
+        return Promise.reject(t('sys.login.passwordPlaceholder'))
+      }
+      if (value.length < 6) {
+        return Promise.reject(t('sys.login.passwordLengthPlaceholder'))
+      }
+      if (value.length > 16) {
+        return Promise.reject(t('sys.login.passwordLengthPlaceholder'))
+      }
+      return Promise.resolve()
+    }
+  }
+
   const validateConfirmPassword = (password: string) => {
     return async (_: RuleObject, value: string) => {
       if (!value) {
@@ -76,25 +101,20 @@ export function useFormRules(formData?: Recordable) {
       // register form rules
       case LoginStateEnum.REGISTER:
         return {
+          name: [{ required: true, message: t('sys.login.namePlaceholder'), trigger: 'change' }],
+          role: [{ required: true, message: t('sys.login.rolePlaceholder'), trigger: 'change' }],
+          tel: [{ validator: validateTel, trigger: 'change' }],
           account: accountFormRule,
-          password: passwordFormRule,
+          password: [{ validator: validatePassword(), trigger: 'change' }],
           confirmPassword: [
             { validator: validateConfirmPassword(formData?.password), trigger: 'change' },
           ],
           policy: [{ validator: validatePolicy, trigger: 'change' }],
           ...mobileRule,
         }
-
       // reset password form rules
-      case LoginStateEnum.RESET_PASSWORD:
-        return {
-          account: accountFormRule,
-          ...mobileRule,
-        }
 
       // mobile form rules
-      case LoginStateEnum.MOBILE:
-        return mobileRule
 
       // login form rules
       default:
