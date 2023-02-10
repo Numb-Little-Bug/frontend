@@ -25,6 +25,13 @@ export function addOperationsApi(params: OperationParams[], mode: ErrorMessageMo
   )
 }
 
+export function getTicketsBySiteIdApi(params: number, mode: ErrorMessageMode = 'modal') {
+  return defHttp.get<TicketResultModel>(
+    { url: Api.Ticket + '/siteId/' + params },
+    { errorMessageMode: mode },
+  )
+}
+
 export function getUsernameByIdApi(params: number, mode: ErrorMessageMode = 'modal') {
   return defHttp.get<TicketResultModel>(
     { url: Api.User + '/' + params },

@@ -1,5 +1,5 @@
 <template>
-  <BasicModal v-bind="$attrs" title="管理现场侧" @ok="handleOk" width="75%">
+  <BasicModal v-bind="$attrs" title="管理现场侧" @ok="handleOk" width="85%">
     <Row>
       <Col :span="17">
         <Tabs v-model:activeKeys="activeKey">
@@ -16,68 +16,53 @@
         </Tabs>
       </Col>
       <Col :span="7">
-        <strong style="font-size: 15px"> 操作步骤</strong>
+        <br />
+        <div v-if="operations.length !== 0">
+          <strong style="font-size: 15px; margin-left: 10px"> 操作步骤</strong>
+          <Timeline style="margin-left: 10px">
+            <br />
+            <TimelineItem v-for="operation in operations" :key="operation.id">
+              <div style="display: flex">
+                <div style="margin-right: auto">{{ operation.description }}</div>
+                <div style="float: right">{{ time }}</div>
+              </div>
+              <div style="opacity: 0.6; display: inline-block"
+                >注意事项：{{ operation.notice }}</div
+              >
+            </TimelineItem>
+          </Timeline>
+        </div>
+        <Empty v-else style="margin-top: 50px" />
       </Col>
     </Row>
-<!--    <Form-->
-<!--      class="p-4 enter-x"-->
-<!--      :model="formData"-->
-<!--      :rules="getFormRules"-->
-<!--      ref="formRef"-->
-<!--      @keypress.enter="handleOk"-->
-<!--    >-->
-<!--      <FormItem name="name" class="enter-x">-->
-<!--        <AInput-->
-<!--          class="fix-auto-fill"-->
-<!--          size="large"-->
-<!--          v-model:value="formData.name"-->
-<!--          :placeholder="t('sys.site.name')"-->
-<!--        />-->
-<!--      </FormItem>-->
-<!--    </Form>-->
   </BasicModal>
 </template>
 
 <script lang="ts" setup>
-  import { Form } from 'ant-design-vue'
-  import { ref, reactive } from 'vue'
+  import { ref } from 'vue'
   import { BasicModal } from '/@/components/Modal'
-  import { useI18n } from '/@/hooks/web/useI18n'
-  import { useFormRules } from './useSite'
-  import { getSiteByIdApi } from '/@/api/sys/site'
-  import { notification, Row, Col, Tabs, TabPane } from 'ant-design-vue'
-  import { useTabs } from '/@/hooks/web/useTabs'
-  const { getFormRules } = useFormRules()
-  const FormItem = Form.Item
-  const { t } = useI18n()
-  const formRef = ref()
-
-  const props = defineProps(['site'])
-
+  import { Row, Col, Tabs, TabPane, Timeline, TimelineItem, Empty } from 'ant-design-vue'
+  const props = defineProps(['site', 'activateTicket', 'operations'])
   let activeKey = ref('1')
 
-  interface formModal {
-    name: string
+  const handleOk = async () => {}
+  // 时间戳：1637244864707
+  /* 时间戳转换为时间 */
+  function timestampToTime(timestamp) {
+    timestamp = timestamp ? timestamp : null
+    let date = new Date(timestamp) //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    let Y = date.getFullYear() + '-'
+    let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+    let D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' '
+    let h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':'
+    let m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':'
+    let s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+    return Y + M + D + h + m + s
   }
-  const formData = reactive<formModal>({
-    name: '',
-  })
-  const { refreshPage } = useTabs()
-  const handleOk = async () => {
-    // try {
-    //   const res = await siteApi({
-    //     name: formData.name,
-    //   })
-    //   if (res) {
-    //     notification.success({
-    //       message: t('sys.site.siteSuccessTitle'),
-    //       duration: 2,
-    //     })
-    //     await getSiteApi()
-    //     await refreshPage()
-    //   }
-    // } catch (error) {}
-  }
+  let time = ref('')
+  setInterval(() => {
+    time.value = timestampToTime(new Date().getTime())
+  }, 1000)
 </script>
 
 <style scoped></style>
