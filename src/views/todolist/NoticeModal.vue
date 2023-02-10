@@ -8,6 +8,8 @@
     wrap-class-name="full-modal"
     @visible-change="handleVisibleChange"
     :showOkBtn="showOkBtn"
+    @cancel="handleCancel"
+    @close="handleClose"
   >
     <div style="width: 100%; text-align: center">
       <strong style="font-size: 22px"
@@ -34,26 +36,38 @@
   let title = ref('操作注意事项')
   let showOkBtn = ref(false)
   let countDown = ref(5)
+  let clock: any = reactive({})
   const timer = () => {
     // 倒计时
-    let timer = setInterval(() => {
+    clock.value = setInterval(() => {
       countDown.value--
-      title.value = `操作注意事项（${countDown.value}秒）`
+      title.value = `操作注意事项（${countDown.value}s）`
       if (countDown.value === 0) {
-        clearInterval(timer)
+        clearInterval(clock.value)
         showOkBtn.value = true
         title.value = '操作注意事项'
       }
     }, 1000)
   }
   const handleVisibleChange = (visible: boolean) => {
-    console.log('NoticeModal handleVisibleChange', visible)
     if (visible) {
       countDown.value = 5
       showOkBtn.value = false
-      title.value = `操作注意事项（${countDown.value}秒）`
+      title.value = `操作注意事项（${countDown.value}s）`
       timer()
     }
+  }
+  const handleCancel = () => {
+    clearInterval(clock.value)
+    countDown.value = 5
+    showOkBtn.value = false
+    title.value = `操作注意事项（${countDown.value}s）`
+  }
+  const handleClose = () => {
+    clearInterval(clock.value)
+    countDown.value = 5
+    showOkBtn.value = false
+    title.value = `操作注意事项（${countDown.value}s）`
   }
   const [OperationModalRegister, { openModal: openOperationModal }] = useModal()
   const props = defineProps(['ticket'])
