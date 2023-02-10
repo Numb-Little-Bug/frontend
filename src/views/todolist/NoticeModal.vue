@@ -1,14 +1,18 @@
 <template>
   <BasicModal
     v-bind="$attrs"
-    title="操作注意事项"
+    :title="title"
     @ok="handleOk"
     width="100%"
     :okText="okText"
     wrap-class-name="full-modal"
+    @visible-change="handleVisibleChange"
+    :showOkBtn="showOkBtn"
   >
     <div style="width: 100%; text-align: center">
-      <strong style="font-size: 22px">请仔细阅读以下须知</strong>
+      <strong style="font-size: 22px"
+        >请仔细阅读以下须知{{ countDown > 0 ? '(' + countDown + 's)' : '' }}</strong
+      >
     </div>
     <div>{{ props.ticket.notice }}</div>
   </BasicModal>
@@ -27,6 +31,30 @@
   import { getOperationsByTicketIdApi } from '/@/api/sys/ticket'
   import { OperationParams } from '/@/api/sys/model/ticketModel'
 
+  let title = ref('操作注意事项')
+  let showOkBtn = ref(false)
+  let countDown = ref(5)
+  const timer = () => {
+    // 倒计时
+    let timer = setInterval(() => {
+      countDown.value--
+      title.value = `操作注意事项（${countDown.value}秒）`
+      if (countDown.value === 0) {
+        clearInterval(timer)
+        showOkBtn.value = true
+        title.value = '操作注意事项'
+      }
+    }, 1000)
+  }
+  const handleVisibleChange = (visible: boolean) => {
+    console.log('NoticeModal handleVisibleChange', visible)
+    if (visible) {
+      countDown.value = 5
+      showOkBtn.value = false
+      title.value = `操作注意事项（${countDown.value}秒）`
+      timer()
+    }
+  }
   const [OperationModalRegister, { openModal: openOperationModal }] = useModal()
   const props = defineProps(['ticket'])
   let okText = ref('下一步')
@@ -34,12 +62,10 @@
   const getOperations = async () => {
     operations.splice(0, operations.length)
     try {
-      let res = await getOperationsByTicketIdApi(props.ticket.id)
-      console.log(res)
+      let res: any = await getOperationsByTicketIdApi(props.ticket.id)
       for (let i = 0; i < res.length; i++) {
         operations.push(res[i])
       }
-      console.log('operations: ', operations)
       // operations根据stepNumber排序
       operations.sort((a, b) => {
         return a.stepNumber - b.stepNumber
@@ -50,7 +76,6 @@
     }
   }
   const handleOk = () => {
-    console.log('ok')
     getOperations()
     openOperationModal()
   }
