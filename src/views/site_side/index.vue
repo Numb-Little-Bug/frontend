@@ -90,7 +90,7 @@
     </Card>
     <Modal1 @register="register1" :site-Id="siteId" />
     <Modal4 @register="register4" />
-    <Modal5 @register="register5" :site="currentSiteClicked" />
+    <Modal5 @register="register5" :site="currentSiteClicked" :activate-ticket="activeTicket" :operations="activateOperations" />
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -116,6 +116,7 @@
   import { useI18n } from '/@/hooks/web/useI18n'
   import { ExclamationCircleOutlined, DownloadOutlined } from '@ant-design/icons-vue'
   import { useTabs } from '/@/hooks/web/useTabs'
+  import {getOperationsByTicketIdApi, getTicketsBySiteIdApi} from '/@/api/sys/ticket'
   // import { PreviewActions } from '/@/components/Preview/src/typing';
 
   let siteId = ref(0)
@@ -149,13 +150,37 @@
       const userData = ref<any>(null)
       const { refreshPage } = useTabs()
       let siteClickedIndex = ref(0)
-      const manageSite = (site: any) => {
+      let activeTicket = ref<any>(null)
+      let activateOperations = ref<any[]>([])
+      const getActiveTicket = async () => {
+        const res = await getTicketsBySiteIdApi(siteId.value)
+        for (let i = 0; i < res.length; i++) {
+          if (res[i].status === 1) {
+            activeTicket.value = res[i]
+            console.log('activeTicket1:', activeTicket.value)
+            return
+          }
+        }
+      }
+      const getOperationsByTicketId = async (ticketId: number) => {
+        return await getOperationsByTicketIdApi(ticketId)
+      }
+      const manageSite = async (site: any) => {
         if (site.video1 === '' && site.video2 === '') {
           notification.error({
             message: '没有连接',
             duration: 2,
           })
           return
+        }
+        await getActiveTicket()
+        console.log('activeTicket2:', activeTicket.value)
+        activateOperations.value.splice(0, activateOperations.value.length)
+        if (activeTicket.value !== null) {
+          let res = await getOperationsByTicketId(activeTicket.value.id)
+          for (let i = 0; i < res.length; i++) {
+            activateOperations.value.push(res[i])
+          }
         }
         openModal5()
       }
@@ -331,6 +356,7 @@
         modalVisible,
         userData,
         sites,
+        activateOperations,
         updateSiteId,
         showDeleteConfirm,
         deleteSite,
@@ -345,6 +371,9 @@
         siteClickedIndex,
         getSiteInfoById,
         currentSiteClicked,
+        getActiveTicket,
+        activeTicket,
+        getOperationsByTicketId,
       }
     },
   })
