@@ -94,17 +94,15 @@
   </PageWrapper>
 </template>
 <script lang="ts">
-  import Test from './Test.vue'
   import Modal1 from './Modal1.vue'
   import { BasicUpload } from '/@/components/Upload'
   import { Card, CardGrid, Modal, notification, Tabs, TabPane, Row, Table } from 'ant-design-vue'
-  import { defineComponent, ref, nextTick, onMounted, createVNode, onBeforeMount } from 'vue'
+  import { defineComponent, ref, nextTick, onMounted, createVNode } from 'vue'
   import { Alert, Space } from 'ant-design-vue'
   import { useModal } from '/@/components/Modal'
   import Modal4 from './Modal4.vue'
   import Modal5 from './Modal5.vue'
   import { PageWrapper } from '/@/components/Page'
-  import { createImgPreview, ImagePreview } from '/@/components/Preview/index'
   import {
     deleteSiteApi,
     getSiteApi,
@@ -124,13 +122,11 @@
   const imgList: string[] = ['https://picsum.photos/id/66/346/216']
   export default defineComponent({
     components: {
-      Test,
       Modal1,
       BasicUpload,
       Card,
       CardGrid,
       PageWrapper,
-      ImagePreview,
       Alert,
       Modal4,
       ASpace: Space,
@@ -153,11 +149,11 @@
       let activeTicket = ref<any>(null)
       let activateOperations = ref<any[]>([])
       const getActiveTicket = async () => {
-        const res = await getTicketsBySiteIdApi(siteId.value)
+        const res: any = await getTicketsBySiteIdApi(siteId.value)
+        activeTicket.value = null
         for (let i = 0; i < res.length; i++) {
           if (res[i].status === 1) {
             activeTicket.value = res[i]
-            console.log('activeTicket1:', activeTicket.value)
             return
           }
         }
@@ -177,7 +173,7 @@
         console.log('activeTicket2:', activeTicket.value)
         activateOperations.value.splice(0, activateOperations.value.length)
         if (activeTicket.value !== null) {
-          let res = await getOperationsByTicketId(activeTicket.value.id)
+          let res: any = await getOperationsByTicketId(activeTicket.value.id)
           for (let i = 0; i < res.length; i++) {
             activateOperations.value.push(res[i])
           }
@@ -196,7 +192,6 @@
       }
 
       const upload = async (file: any) => {
-        console.log('activeKeys:', activeKeys)
         let res: any = null
         if (activeKeys.value[siteClickedIndex.value] === 1) {
           res = await video1Api({
@@ -276,14 +271,6 @@
         }
       }
 
-      function openImg() {
-        const onImgLoad = ({ index, url, dom }) => {
-          console.log(`第${index + 1}张图片已加载，URL为：${url}`, dom)
-        }
-        // 可以使用createImgPreview返回的 PreviewActions 来控制预览逻辑，实现类似幻灯片、自动旋转之类的骚操作
-        createImgPreview({ imageList: imgList, defaultWidth: 700, rememberState: true, onImgLoad })
-      }
-
       const deleteSite = async () => {
         try {
           const res = await deleteSiteApi({
@@ -324,7 +311,7 @@
       }
       onMounted(async () => {
         try {
-          const res = await getSiteApi()
+          const res: any = await getSiteApi()
           console.log('res:', res)
           sites.value = res
           for (let i = 0; i < res.length; i++) {
@@ -350,7 +337,6 @@
         siteId,
         upload,
         imgList,
-        openImg,
         register4,
         openModal4,
         modalVisible,
