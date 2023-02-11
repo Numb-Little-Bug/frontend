@@ -61,9 +61,9 @@ export default {
     signUpFormTitle: '注册',
     forgetFormTitle: '重置密码',
 
-    signInTitle: '开箱即用的中后台管理系统',
-    signInDesc: '输入您的个人详细信息开始使用！',
-    policy: '我同意电力生产智能安全保障系统隐私政策',
+    signInTitle: 'Power Shield电力生产安全智能保障系统',
+    signInDesc: 'PowerShield开发团队提醒您：电力千万条，安全第一条；操作不规范，亲人两行泪',
+    policy: '我同意电力生产安全智能保障系统隐私政策',
     scanSign: `扫码后点击"确认"，即可完成登录`,
 
     loginButton: '登录',
