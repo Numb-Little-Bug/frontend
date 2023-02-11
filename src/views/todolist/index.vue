@@ -24,14 +24,6 @@
             <a-col :xs="1" :sm="2" :md="3" :lg="4" :xl="6">
               <a-list-item>
                 <a-card :hoverable="true" :class="`${prefixCls}__card`">
-<!--                  <div :class="`${prefixCls}__card-detail`">唱票人：{{ item.tellerName }}</div>-->
-<!--                  <div :class="`${prefixCls}__card-detail`">执行人：{{ item.operatorName }} </div>-->
-<!--                  <div :class="`${prefixCls}__card-detail`">现场侧：{{ item.siteName }} </div>-->
-<!--                  <div :class="`${prefixCls}__card-detail`">起止时间：</div>-->
-<!--                  <div :class="`${prefixCls}__card-detail`"-->
-<!--                    >{{ timestampToTime(item.startTime) }} &#45;&#45;-->
-<!--                    {{ timestampToTime(item.endTime) }}</div-->
-<!--                  >-->
                   <Descriptions :column="1" :title="item.name">
                     <template #extra>
                       <a-button type="primary" @click="updateCurrentTicket(item), toPerform(item)"
@@ -42,8 +34,10 @@
                     <DescriptionsItem label="执行人">{{ item.operatorName }}</DescriptionsItem>
                     <DescriptionsItem label="现场侧">{{ item.siteName }}</DescriptionsItem>
                     <DescriptionsItem label="发布人">{{ item.publisherName }}</DescriptionsItem>
-                    <DescriptionsItem label="起止时间">
-                      {{ timestampToTime(item.startTime) }} &#45;&#45;
+                    <DescriptionsItem label="开始时间">
+                      {{ timestampToTime(item.startTime) }}
+                    </DescriptionsItem>
+                    <DescriptionsItem label="结束时间">
                       {{ timestampToTime(item.endTime) }}
                     </DescriptionsItem>
                   </Descriptions>
@@ -59,7 +53,6 @@
 </template>
 <script lang="ts">
   import { defineComponent, onMounted, reactive, ref } from 'vue'
-  import Icon from '/@/components/Icon/index'
   import { cardList } from './data'
   import { PageWrapper } from '/@/components/Page'
   import { Card, Row, Col, List, Descriptions, DescriptionsItem } from 'ant-design-vue'
@@ -73,7 +66,6 @@
 
   export default defineComponent({
     components: {
-      Icon,
       PageWrapper,
       [Card.name]: Card,
       [List.name]: List,
@@ -106,7 +98,7 @@
       }
       const getUsernameById = async (id: number) => {
         try {
-          const res = await getUsernameByIdApi(id)
+          const res: any = await getUsernameByIdApi(id)
           return res.name
         } catch (e) {
           console.log(e)
@@ -118,14 +110,14 @@
       }
       onMounted(async () => {
         try {
-          const res = await getUserInfo()
-          const re = await getTicketByIdApi(res.id)
+          const res: any = await getUserInfo()
+          const re: any = await getTicketByIdApi(res.id)
 
           for (let i = 0; i < re.length; i++) {
             let tellerName = await getUsernameById(re[i].tellerId)
             let operatorName = await getUsernameById(re[i].operatorId)
             let publisherName = await getUsernameById(re[i].publisherId)
-            let siteName = await getSiteByIdApi(re[i].siteId)
+            let siteName: any = await getSiteByIdApi(re[i].siteId)
             tickets.push({
               id: re[i].id,
               name: re[i].name,

@@ -36,10 +36,15 @@
   </div>
 </template>
 <script lang="ts">
-import {defineComponent, ref, reactive, onMounted, computed} from 'vue'
+  import { defineComponent, ref, reactive } from 'vue'
   import { BasicForm, useForm } from '/@/components/Form'
   import { Alert, Divider, Descriptions } from 'ant-design-vue'
-  import { addOperationsApi, addTicketApi, getUsernameByIdApi, getSiteNameByIdApi } from '/@/api/sys/ticket'
+  import {
+    addOperationsApi,
+    addTicketApi,
+    getUsernameByIdApi,
+    getSiteNameByIdApi,
+  } from '/@/api/sys/ticket'
   import { AddTicketParams, OperationParams } from '/@/api/sys/model/ticketModel'
   import { getUserInfo } from '/@/api/sys/user'
 
@@ -69,39 +74,41 @@ import {defineComponent, ref, reactive, onMounted, computed} from 'vue'
         submitFunc: customSubmitFunc,
       })
 
-      function msToDate (msec) {
-        let datetime = new Date(msec);
-        let year = datetime.getFullYear();
-        let month = datetime.getMonth();
-        let date = datetime.getDate();
-        let hour = datetime.getHours();
-        let minute = datetime.getMinutes();
-        let second = datetime.getSeconds();
+      function msToDate(msec) {
+        let datetime = new Date(msec)
+        let year = datetime.getFullYear()
+        let month = datetime.getMonth()
+        let date = datetime.getDate()
+        let hour = datetime.getHours()
+        let minute = datetime.getMinutes()
+        let second = datetime.getSeconds()
 
-        let result1 = year +
+        let result1 =
+          year +
           '-' +
-          ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) +
+          (month + 1 >= 10 ? month + 1 : '0' + (month + 1)) +
           '-' +
-          ((date + 1) < 10 ? '0' + date : date) +
+          (date + 1 < 10 ? '0' + date : date) +
           ' ' +
-          ((hour + 1) < 10 ? '0' + hour : hour) +
+          (hour + 1 < 10 ? '0' + hour : hour) +
           ':' +
-          ((minute + 1) < 10 ? '0' + minute : minute) +
+          (minute + 1 < 10 ? '0' + minute : minute) +
           ':' +
-          ((second + 1) < 10 ? '0' + second : second);
+          (second + 1 < 10 ? '0' + second : second)
 
-        let result2 = year +
+        let result2 =
+          year +
           '-' +
-          ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) +
+          (month + 1 >= 10 ? month + 1 : '0' + (month + 1)) +
           '-' +
-          ((date + 1) < 10 ? '0' + date : date);
+          (date + 1 < 10 ? '0' + date : date)
 
         let result = {
           hasTime: result1,
-          withoutTime: result2
-        };
+          withoutTime: result2,
+        }
 
-        return result;
+        return result
       }
 
       async function customResetFunc() {
@@ -122,22 +129,17 @@ import {defineComponent, ref, reactive, onMounted, computed} from 'vue'
       const initName = async () => {
         // 唱票人姓名
         const res = await getUsernameByIdApi(_.values.name1)
-        console.log(res.name)
         tellerName.value = res.name
         // 操作人姓名
         const res1 = await getUsernameByIdApi(_.values.operator_name)
-        console.log(res1.name)
         operatorName.value = res1.name
         // 发布人姓名
         const res2 = await getUserInfo()
-        console.log(res2.name)
         publisherName.value = res2.name
         // 现场侧名
         const res3 = await getSiteNameByIdApi(_.values.site_side_name)
-        console.log(res3.name)
         siteName.value = res3.name
       }
-
       let Ticket: AddTicketParams = {
         name: _.values.title,
         siteId: _.values.site_side_name,
@@ -150,9 +152,9 @@ import {defineComponent, ref, reactive, onMounted, computed} from 'vue'
         remark: _.values.notes,
         status: 0,
       }
-
-      const operations: OperationParams[] = reactive([])
+      let operations: OperationParams[] = reactive([])
       function getOperations() {
+        operations.splice(0, operations.length)
         for (let value in _.values) {
           if (value.split('_')[0] === 'step') {
             const stepNumber = Number(value.split('_')[2])
@@ -172,7 +174,6 @@ import {defineComponent, ref, reactive, onMounted, computed} from 'vue'
                 operations[stepNumber - 1].type = _.values[value]
               }
             } else {
-              console.log(value.split('_')[1])
               if (value.split('_')[1] === 'desc') {
                 operations[stepNumber - 1].description = _.values[value]
               } else if (value.split('_')[1] === 'remark') {
@@ -206,13 +207,10 @@ import {defineComponent, ref, reactive, onMounted, computed} from 'vue'
             status: 0,
           }
           getOperations()
-          console.log('operations', operations)
           const ticket_id = await addTicketApi(Ticket)
-          console.log('ticket_id', ticket_id)
           for (let i = 0; i < operations.length; i++) {
             operations[i].ticketId = Number(ticket_id)
           }
-          console.log('operations', operations)
           await addOperationsApi(operations)
           setTimeout(() => {
             setProps({
@@ -224,7 +222,17 @@ import {defineComponent, ref, reactive, onMounted, computed} from 'vue'
           }, 1500)
         } catch (error) {}
       }
-      return { register, initName, getOperations, msToDate, siteName, tellerName, operatorName, publisherName, operations }
+      return {
+        register,
+        initName,
+        getOperations,
+        msToDate,
+        siteName,
+        tellerName,
+        operatorName,
+        publisherName,
+        operations,
+      }
     },
   })
 </script>

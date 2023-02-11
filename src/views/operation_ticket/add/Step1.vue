@@ -124,7 +124,6 @@
         try {
           const values = await validate()
           emit('next', values)
-          console.log(values)
         } catch (error) {}
       }
       return { register, newStep, deleteStep, StepNum }

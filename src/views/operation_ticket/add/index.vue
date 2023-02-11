@@ -51,9 +51,9 @@
 
       const step1_Values = ref({})
       function handleStep1Next(step1Values: any) {
+        step1_Values.value = step1Values
         current.value++
         state.initSetp2 = true
-        step1_Values.value = step1Values
       }
 
       function handleStepPrev() {
@@ -63,7 +63,6 @@
       function handleStep2Next(step2Values: any) {
         current.value++
         state.initSetp3 = true
-        console.log('step2Value', step2Values)
       }
 
       function handleRedo() {
