@@ -20,7 +20,7 @@ const setting: ProjectConfig = {
     show: true,
     theme: 'light',
     showFullScreen: true,
-    showDoc: true,
+    showDoc: false,
     showNotice: true,
     showSearch: true,
   },
