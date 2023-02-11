@@ -41,42 +41,42 @@
   </g>
   <rect x="324.95" y="72.5" width="321.54" height="183.96" rx="4.5" ry="4.5" fill="#fff"/>
   <g opacity="0.5">
-    <rect x="414.52" y="98.91" width="35.44" height="31.9" rx="4.5" ry="4.5" fill="#0960bd"/>
+    <rect x="414.52" y="98.91" width="35.44" height="31.9" rx="4.5" ry="4.5" fill="#226B42"/>
   </g>
   <rect x="460.59" y="98.91" width="95.69" height="3.54" rx="1.77" ry="1.77" fill="#e0e0e0"/>
   <rect x="460.59" y="109.55" width="79.54" height="3.54" rx="1.77" ry="1.77" fill="#e0e0e0"/>
   <g opacity="0.5">
-    <rect x="414.52" y="148.53" width="35.44" height="31.9" rx="4.5" ry="4.5" fill="#0960bd"/>
+    <rect x="414.52" y="148.53" width="35.44" height="31.9" rx="4.5" ry="4.5" fill="#226B42"/>
   </g>
   <rect x="460.59" y="148.53" width="95.69" height="3.54" rx="1.77" ry="1.77" fill="#e0e0e0"/>
   <rect x="460.59" y="159.16" width="95.69" height="3.54" rx="1.77" ry="1.77" fill="#e0e0e0"/>
   <g opacity="0.5">
-    <rect x="414.52" y="198.15" width="35.44" height="31.9" rx="4.5" ry="4.5" fill="#0960bd"/>
+    <rect x="414.52" y="198.15" width="35.44" height="31.9" rx="4.5" ry="4.5" fill="#226B42"/>
   </g>
   <rect x="460.59" y="198.15" width="95.69" height="3.54" rx="1.77" ry="1.77" fill="#e0e0e0"/>
   <rect x="460.59" y="208.78" width="96.33" height="3.54" rx="1.59" ry="1.59" fill="#e0e0e0"/>
-  <line x1="485.72" y1="42" x2="485.72" y2="20" stroke="#0960bd" stroke-miterlimit="10"
+  <line x1="485.72" y1="42" x2="485.72" y2="20" stroke="#226B42" stroke-miterlimit="10"
         stroke-width="2"/>
-  <line x1="485.72" y1="79" x2="485.72" y2="50.13" stroke="#0960bd" stroke-miterlimit="10"
+  <line x1="485.72" y1="79" x2="485.72" y2="50.13" stroke="#226B42" stroke-miterlimit="10"
         stroke-width="2"/>
-  <circle cx="485.72" cy="79" r="4" fill="#0960bd"/>
+  <circle cx="485.72" cy="79" r="4" fill="#226B42"/>
   <circle cx="485.72" cy="46" r="4" fill="none" stroke="#fff" stroke-miterlimit="10"/>
-  <line x1="485.72" y1="42" x2="485.72" y2="20" stroke="#0960bd" stroke-miterlimit="10"
+  <line x1="485.72" y1="42" x2="485.72" y2="20" stroke="#226B42" stroke-miterlimit="10"
         stroke-width="2"/>
-  <line x1="485.72" y1="79" x2="485.72" y2="50.13" stroke="#0960bd" stroke-miterlimit="10"
+  <line x1="485.72" y1="79" x2="485.72" y2="50.13" stroke="#226B42" stroke-miterlimit="10"
         stroke-width="2"/>
-  <circle cx="485.72" cy="79" r="4" fill="#0960bd"/>
+  <circle cx="485.72" cy="79" r="4" fill="#226B42"/>
   <circle cx="485.72" cy="46" r="4" fill="none" stroke="#fff" stroke-miterlimit="10"/>
-  <line x1="485.72" y1="279" x2="485.72" y2="310" stroke="#0960bd" stroke-miterlimit="10"
+  <line x1="485.72" y1="279" x2="485.72" y2="310" stroke="#226B42" stroke-miterlimit="10"
         stroke-width="2"/>
-  <line x1="485.72" y1="251" x2="485.72" y2="279.87" stroke="#0960bd" stroke-miterlimit="10"
+  <line x1="485.72" y1="251" x2="485.72" y2="279.87" stroke="#226B42" stroke-miterlimit="10"
         stroke-width="2"/>
-  <circle cx="485.72" cy="251" r="4" fill="#0960bd"/>
-  <line x1="305.72" y1="168.5" x2="274.22" y2="168.5" stroke="#0960bd" stroke-miterlimit="10"
+  <circle cx="485.72" cy="251" r="4" fill="#226B42"/>
+  <line x1="305.72" y1="168.5" x2="274.22" y2="168.5" stroke="#226B42" stroke-miterlimit="10"
         stroke-width="2"/>
-  <line x1="333.22" y1="168.5" x2="304.35" y2="168.5" stroke="#0960bd" stroke-miterlimit="10"
+  <line x1="333.22" y1="168.5" x2="304.35" y2="168.5" stroke="#226B42" stroke-miterlimit="10"
         stroke-width="2"/>
-  <circle cx="333.22" cy="168.5" r="4" fill="#0960bd"/>
+  <circle cx="333.22" cy="168.5" r="4" fill="#226B42"/>
   <g opacity="0.1">
     <rect x="408.22" y="435.5" width="156" height="3"/>
   </g>
@@ -130,7 +130,7 @@
   <rect x="835.72" y="321" width="16" height="100" fill="#535461"/>
   <rect x="835.72" y="288" width="16" height="33" fill="#3ad29f"/>
   <rect x="857.72" y="329" width="16" height="100" fill="#535461"/>
-  <rect x="857.72" y="296" width="16" height="33" fill="#4d8af0"/>
+  <rect x="857.72" y="296" width="16" height="33" fill="#3ad29f"/>
   <rect x="884.72" y="346" width="16" height="100" fill="#535461"/>
   <rect x="884.72" y="313" width="16" height="33" fill="#f55f44"/>
   <path
