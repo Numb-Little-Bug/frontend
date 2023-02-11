@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper :class="prefixCls" title="标准列表">
+  <PageWrapper :class="prefixCls" title="代办操作票">
     <div :class="`${prefixCls}__top`">
       <a-row :gutter="12">
         <a-col :span="8" :class="`${prefixCls}__top-col`">
