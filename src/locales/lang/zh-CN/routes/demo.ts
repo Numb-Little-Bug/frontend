@@ -163,7 +163,7 @@ export default {
   operation_ticket: {
     operation_ticket: '操作票',
     add: '添加操作票',
-    template: '操作票模板',
+    template: '设备类型管理',
   },
   system: {
     moduleName: '系统管理',
