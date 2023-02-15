@@ -23,8 +23,9 @@
             <br />
             <TimelineItem v-for="operation in operations" :key="operation.id">
               <div style="display: flex">
-                <div style="margin-right: auto">{{ operation.description }}</div>
-                <div style="float: right">{{ time }}</div>
+                <div style="margin-right: auto"
+                  >将 {{ operation.description }} {{ operation.type }}</div
+                >
               </div>
               <div style="opacity: 0.6; display: inline-block"
                 >注意事项：{{ operation.notice }}</div
