@@ -18,6 +18,8 @@ export interface AddTicketParams {
   remark: string
 
   status: 0
+
+  deviceTypeId: number
 }
 
 export interface TicketResultModel {

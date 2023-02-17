@@ -1,5 +1,11 @@
 <template>
-  <BasicModal v-bind="$attrs" title="管理现场侧" @ok="handleOk" width="85%">
+  <BasicModal
+    v-bind="$attrs"
+    title="管理现场侧"
+    @ok="handleOk"
+    width="85%"
+    @visible-change="getDetected"
+  >
     <Row>
       <Col :span="17">
         <Tabs v-model:activeKeys="activeKey">
@@ -19,6 +25,7 @@
         <br />
         <div v-if="operations.length !== 0">
           <strong style="font-size: 15px; margin-left: 10px"> 操作步骤</strong>
+          {{ props.activateTicket }}
           <Timeline style="margin-left: 10px">
             <br />
             <TimelineItem v-for="operation in operations" :key="operation.id">
@@ -43,6 +50,9 @@
   import { ref } from 'vue'
   import { BasicModal } from '/@/components/Modal'
   import { Row, Col, Tabs, TabPane, Timeline, TimelineItem, Empty } from 'ant-design-vue'
+  import { getDeviceApi } from '/@/api/sys/device'
+  import { detectApi } from '/@/api/sys/detect'
+  import axios from 'axios'
   const props = defineProps(['site', 'activateTicket', 'operations'])
   let activeKey = ref('1')
 
@@ -64,6 +74,15 @@
   setInterval(() => {
     time.value = timestampToTime(new Date().getTime())
   }, 1000)
+  const getDetected = async (visible: boolean) => {
+    if (!visible) {
+      return
+    }
+    const res = await getDeviceApi(props.activateTicket.deviceTypeId)
+    console.log(res)
+    const res2 = await detectApi()
+    console.log(res2)
+  }
 </script>
 
 <style scoped></style>

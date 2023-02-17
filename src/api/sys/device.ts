@@ -13,7 +13,7 @@ export function getDeviceApi(params: number, mode: ErrorMessageMode = 'modal') {
   )
 }
 
-export function getALlDeviceApi(mode: ErrorMessageMode = 'modal') {
+export function getAllDeviceApi(mode: ErrorMessageMode = 'modal') {
   return defHttp.get<DeviceResultModel>({ url: Api.Device }, { errorMessageMode: mode })
 }
 

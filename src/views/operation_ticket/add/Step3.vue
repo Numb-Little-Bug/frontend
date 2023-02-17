@@ -151,6 +151,7 @@
         notice: _.values.safety_precautions,
         remark: _.values.notes,
         status: 0,
+        deviceTypeId: _.values.device,
       }
       let operations: OperationParams[] = reactive([])
       function getOperations() {
@@ -205,7 +206,9 @@
             notice: _.values.safety_precautions,
             remark: _.values.notes,
             status: 0,
+            deviceTypeId: _.values.device,
           }
+          console.log('Ticket: ', Ticket)
           getOperations()
           const ticket_id = await addTicketApi(Ticket)
           for (let i = 0; i < operations.length; i++) {
