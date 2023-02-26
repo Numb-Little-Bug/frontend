@@ -22,6 +22,13 @@
     </div>
     <Timeline>
       <TimelineItem v-for="operation in operations" :key="operation.id">
+        <a-button
+          preIcon="iconoir:sound-high"
+          iconSize="12"
+          shape="circle"
+          size="small"
+          @click="broadcastOperation(operation.description, operation.notice)"
+        />
         <div style="display: flex">
           <div style="margin-right: auto">{{ operation.description }}</div>
           <div style="float: right">{{ time }}</div>
@@ -58,6 +65,11 @@
   const handleOk = () => {
     console.log('ok')
   }
+  const broadcastOperation = (text1: any, text2: any) => {
+    window.speechSynthesis.speak(new window.SpeechSynthesisUtterance(text1))
+    window.speechSynthesis.speak(new window.SpeechSynthesisUtterance('注意事项'))
+    window.speechSynthesis.speak(new window.SpeechSynthesisUtterance(text2))
+  }
 </script>
 
 <style lang="less">
@@ -68,11 +80,13 @@
       padding-bottom: 0;
       margin: 0;
     }
+
     .ant-modal-content {
       display: flex;
       flex-direction: column;
       height: calc(100vh);
     }
+
     .ant-modal-body {
       flex: 1;
     }
