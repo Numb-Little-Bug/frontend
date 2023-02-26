@@ -12,7 +12,6 @@
   async function customSubmitFunc() {
     try {
       const values = await validate()
-      console.log(values)
       //emit('next', values)
     } catch (error) {
       console.log(error)
