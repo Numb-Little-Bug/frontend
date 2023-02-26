@@ -1,11 +1,7 @@
 export interface DeviceModel {
-  type: string
+  name: string
 
-  lights: Object
-
-  straps: Object
-
-  switches: Object
+  siteId: string
 }
 
 export interface DeviceResultModel {
