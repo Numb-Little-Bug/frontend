@@ -1,10 +1,10 @@
 import { FormSchema } from '/@/components/Form'
 
-export const schemas: FormSchema[] = [
+export const step1Schemas: FormSchema[] = [
   {
     field: 'type',
     component: 'Input',
-    label: '设备类型',
+    label: '设备名称',
     colProps: {
       span: 12,
     },
