@@ -76,20 +76,16 @@
             schema.push({
               field: 'light_' + i + '_' + j + '_name',
               label: '第' + i + '行' + '第' + j + '列指示灯名称',
+              labelWidth: 150,
               component: 'Input',
-              colProps: { span: 12 },
-            })
-            schema.push({
-              field: 'light_' + i + '_' + j + '_description',
-              label: '第' + i + '行' + '第' + j + '列指示灯描述',
-              component: 'Input',
-              colProps: { span: 12 },
+              colProps: { span: 8 },
             })
             schema.push({
               field: 'light_' + i + '_' + j + '_status',
               label: '第' + i + '行' + '第' + j + '列指示状态',
+              labelWidth: 150,
               component: 'Input',
-              colProps: { span: 24 },
+              colProps: { span: 16 },
             })
           }
         }
@@ -99,20 +95,16 @@
             schema.push({
               field: 'switch_' + i + '_' + j + '_name',
               label: '第' + i + '行' + '第' + j + '列开关名称',
+              labelWidth: 150,
               component: 'Input',
-              colProps: { span: 12 },
-            })
-            schema.push({
-              field: 'switch_' + i + '_' + j + '_description',
-              label: '第' + i + '行' + '第' + j + '列开关描述',
-              component: 'Input',
-              colProps: { span: 12 },
+              colProps: { span: 8 },
             })
             schema.push({
               field: 'switch_' + i + '_' + j + '_status',
               label: '第' + i + '行' + '第' + j + '列开关状态',
+              labelWidth: 150,
               component: 'Input',
-              colProps: { span: 24 },
+              colProps: { span: 16 },
             })
           }
         }
@@ -122,20 +114,16 @@
             schema.push({
               field: 'strap_' + i + '_' + j + '_name',
               label: '第' + i + '行' + '第' + j + '列压板名称',
+              labelWidth: 150,
               component: 'Input',
-              colProps: { span: 12 },
-            })
-            schema.push({
-              field: 'strap_' + i + '_' + j + '_description',
-              label: '第' + i + '行' + '第' + j + '列压板描述',
-              component: 'Input',
-              colProps: { span: 12 },
+              colProps: { span: 8 },
             })
             schema.push({
               field: 'strap_' + i + '_' + j + '_status',
               label: '第' + i + '行' + '第' + j + '列压板状态',
+              labelWidth: 150,
               component: 'Input',
-              colProps: { span: 24 },
+              colProps: { span: 16 },
             })
           }
         }
@@ -144,12 +132,14 @@
       }
 
       function handleStepPrev() {
+        step1_Schema.value = []
         current.value--
       }
 
       function handleStep2Next(step2Values: any) {
-        step2_Values.value = step2Values
-        console.log(step2_Values.value)
+        step2_Values.value['items'] = step2Values
+        step2_Values.value['device'] = step1_Values.value
+        console.log('step2_value:', step2_Values.value)
         current.value++
         state.initSetp3 = true
       }

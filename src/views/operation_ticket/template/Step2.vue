@@ -12,14 +12,13 @@
   async function customSubmitFunc() {
     try {
       const values = await validate()
-      //emit('next', values)
+      emit('next', values)
     } catch (error) {
       console.log(error)
     }
   }
 
   async function customResetFunc() {
-    console.log('schema', props.schema)
     emit('prev')
   }
   const [register, { validate, appendSchemaByField, removeSchemaByField, getFieldsValue }] =

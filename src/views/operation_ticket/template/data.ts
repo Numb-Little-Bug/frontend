@@ -1,14 +1,38 @@
 import { FormSchema } from '/@/components/Form'
+import { getSiteApi } from '/@/api/sys/site'
 
 export const step1Schemas: FormSchema[] = [
   {
-    field: 'type',
+    field: 'name',
     component: 'Input',
     label: '设备名称',
     colProps: {
       span: 12,
     },
     required: true,
+  },
+  {
+    colProps: {
+      span: 12,
+    },
+    component: 'ApiSelect',
+    componentProps: {
+      api: () => getSiteApi(),
+      valueField: 'id',
+      labelField: 'name',
+      immediate: false,
+    },
+    // dynamicRules: () => {
+    //   return [
+    //     {
+    //       required: true,
+    //       message: '现场侧名不能为空',
+    //       trigger: ['blur'],
+    //     },
+    //   ]
+    // },
+    field: 'site_side_name',
+    label: '现场侧名',
   },
   {
     field: 'item',

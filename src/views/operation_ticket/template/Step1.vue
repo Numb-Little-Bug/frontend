@@ -64,6 +64,7 @@
                 label: '第' + i + '行指示灯数量',
                 component: 'Select',
                 show: true,
+                labelWidth: 120,
                 colProps: {
                   span: 24 / light_line_number.value,
                 },
@@ -100,6 +101,7 @@
                 label: '第' + i + '行压板数量',
                 component: 'Select',
                 show: true,
+                labelWidth: 120,
                 colProps: {
                   span: 24 / strap_line_number.value,
                 },
@@ -136,6 +138,7 @@
                 label: '第' + i + '行开关数量',
                 component: 'Select',
                 show: true,
+                labelWidth: 120,
                 colProps: {
                   span: 24 / switch_line_number.value,
                 },
