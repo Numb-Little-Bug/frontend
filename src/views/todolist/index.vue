@@ -21,7 +21,7 @@
       <a-list>
         <a-row :gutter="16">
           <template v-for="item in tickets" :key="item.id">
-            <a-col :xs="1" :sm="2" :md="3" :lg="4" :xl="6">
+            <a-col :xs="1" :sm="2" :md="3" :lg="4" :xl="6" v-if="item.status !== 2">
               <a-list-item>
                 <a-card :hoverable="true" :class="`${prefixCls}__card`">
                   <Descriptions :column="1" :title="item.name">
@@ -129,7 +129,7 @@
               startTime: re[i].startTime,
               endTime: re[i].endTime,
               remark: re[i].remark,
-              status: 0,
+              status: re[i].status,
               tellerName: tellerName,
               operatorName: operatorName,
               publisherName: publisherName,

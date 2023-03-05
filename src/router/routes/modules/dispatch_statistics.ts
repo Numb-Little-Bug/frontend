@@ -11,7 +11,7 @@ const dispatch_statistics: AppRouteModule = {
   meta: {
     orderNo: 12,
     icon: 'wpf:statistics',
-    title: 'Dispatch Statistics',
+    title: '统计数据',
     roles: [RoleEnum.DISPATCH],
   },
   children: [
@@ -21,7 +21,7 @@ const dispatch_statistics: AppRouteModule = {
       component: () => import('/@/views/dispatch_statistics/chart/index.vue'),
       meta: {
         // affix: true,
-        title: 'Dispatch chart',
+        title: '图表记录',
         icon: 'charm:chart-bar',
       },
     },
@@ -30,7 +30,7 @@ const dispatch_statistics: AppRouteModule = {
       name: 'DispatchTable',
       component: () => import('/@/views/dispatch_statistics/table/index.vue'),
       meta: {
-        title: 'Dispatch table',
+        title: '统计记录',
         icon: 'iconoir:table-rows',
       },
     },

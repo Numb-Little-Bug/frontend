@@ -90,7 +90,12 @@
     </Card>
     <Modal1 @register="register1" :site-Id="siteId" />
     <Modal4 @register="register4" />
-    <Modal5 @register="register5" :site="currentSiteClicked" :activate-ticket="activeTicket" :operations="activateOperations" />
+    <Modal5
+      @register="register5"
+      :site="currentSiteClicked"
+      :activate-ticket="activeTicket"
+      :operations="activateOperations"
+    />
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -114,7 +119,7 @@
   import { useI18n } from '/@/hooks/web/useI18n'
   import { ExclamationCircleOutlined, DownloadOutlined } from '@ant-design/icons-vue'
   import { useTabs } from '/@/hooks/web/useTabs'
-  import {getOperationsByTicketIdApi, getTicketsBySiteIdApi} from '/@/api/sys/ticket'
+  import { getOperationsByTicketIdApi, getTicketsBySiteIdApi } from '/@/api/sys/ticket'
   // import { PreviewActions } from '/@/components/Preview/src/typing';
 
   let siteId = ref(0)

@@ -30,8 +30,8 @@
   import { BasicModal } from '/@/components/Modal'
   import OperationModal from './OperationModal.vue'
   import { useModal } from '/@/components/Modal'
-  import { getOperationsByTicketIdApi } from '/@/api/sys/ticket'
-  import { OperationParams } from '/@/api/sys/model/ticketModel'
+  import { getOperationsByTicketIdApi, changeTicketStatusApi } from '/@/api/sys/ticket'
+  import {ChangeTicketStatusParams, OperationParams} from '/@/api/sys/model/ticketModel'
 
   let title = ref('操作注意事项')
   let showOkBtn = ref(false)
@@ -90,6 +90,10 @@
     }
   }
   const handleOk = () => {
+    let changeTicketParams: ChangeTicketStatusParams = {
+      status: 1,
+    }
+    changeTicketStatusApi(props.ticket.id, changeTicketParams)
     getOperations()
     openOperationModal()
   }

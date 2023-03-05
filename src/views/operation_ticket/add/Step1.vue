@@ -33,8 +33,6 @@
         },
         submitFunc: customSubmitFunc,
       })
-
-
       async function customSubmitFunc() {
         try {
           const values = await validate()

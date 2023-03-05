@@ -22,6 +22,10 @@ export interface AddTicketParams {
   deviceTypeId: number | null
 }
 
+export interface ChangeTicketStatusParams {
+  status: number
+}
+
 export interface TicketResultModel {
   code: number
   msg: string
@@ -35,7 +39,6 @@ export interface OperationParams {
   itemId: number | null
   ticketId: number | null
   notice: string
-
 }
 
 export interface addOperationsParams {
