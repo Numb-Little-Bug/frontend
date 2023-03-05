@@ -32,6 +32,7 @@ export interface OperationParams {
   type: string
   description: string
   stepNumber: number
+  itemId: number | null
   ticketId: number | null
   notice: string
 }

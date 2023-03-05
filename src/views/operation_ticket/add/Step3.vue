@@ -19,12 +19,12 @@
       <a-descriptions-item label="发布人"> {{ publisherName }} </a-descriptions-item>
     </a-descriptions>
     <div style="margin-top: 10px">操作步骤：</div>
-    <a-descriptions :column="7" class="mt-5" v-for="(item, index) in operations">
+    <a-descriptions :column="7" class="mt-5" v-for="(item, index) in operations" :key="index">
       <a-descriptions-item label="次序" span="1"> {{ index + 1 }} </a-descriptions-item>
-      <a-descriptions-item label="描述" span="3">
+      <a-descriptions-item label="操作对象" span="3">
         {{ item.description }}
       </a-descriptions-item>
-      <a-descriptions-item label="类型" span="1"> {{ item.type }} </a-descriptions-item>
+      <a-descriptions-item label="操作类型" span="1"> {{ item.type }} </a-descriptions-item>
       <a-descriptions-item label="备注" span="2"> {{ item.notice }} </a-descriptions-item>
     </a-descriptions>
     <a-descriptions :column="1" class="mt-5">
@@ -47,6 +47,7 @@
   } from '/@/api/sys/ticket'
   import { AddTicketParams, OperationParams } from '/@/api/sys/model/ticketModel'
   import { getUserInfo } from '/@/api/sys/user'
+  import { getItemApi } from '/@/api/sys/device'
 
   export default defineComponent({
     components: {
@@ -151,11 +152,9 @@
         notice: _.values.safety_precautions,
         remark: _.values.notes,
         status: 0,
-        deviceTypeId: _.values.device,
       }
       let operations: OperationParams[] = reactive([])
-      function getOperations() {
-        operations.splice(0, operations.length)
+      async function getOperations() {
         for (let value in _.values) {
           if (value.split('_')[0] === 'step') {
             const stepNumber = Number(value.split('_')[2])
@@ -164,11 +163,15 @@
                 ticketId: null,
                 stepNumber: stepNumber,
                 description: '',
+                itemId: null,
                 notice: '',
                 type: '',
               })
               if (value.split('_')[1] === 'desc') {
-                operations[stepNumber - 1].description = _.values[value]
+                let item: any = await getItemApi(_.values[value])
+                operations[stepNumber - 1].description = item.name
+                item = null
+                operations[stepNumber - 1].itemId = _.values[value]
               } else if (value.split('_')[1] === 'remark') {
                 operations[stepNumber - 1].notice = _.values[value]
               } else if (value.split('_')[1] === 'type') {
@@ -176,7 +179,10 @@
               }
             } else {
               if (value.split('_')[1] === 'desc') {
-                operations[stepNumber - 1].description = _.values[value]
+                let item: any = await getItemApi(_.values[value])
+                operations[stepNumber - 1].description = item.name
+                item = null
+                operations[stepNumber - 1].itemId = _.values[value]
               } else if (value.split('_')[1] === 'remark') {
                 operations[stepNumber - 1].notice = _.values[value]
               } else if (value.split('_')[1] === 'type') {
@@ -206,10 +212,8 @@
             notice: _.values.safety_precautions,
             remark: _.values.notes,
             status: 0,
-            deviceTypeId: _.values.device,
           }
-          console.log('Ticket: ', Ticket)
-          getOperations()
+          await getOperations()
           const ticket_id = await addTicketApi(Ticket)
           for (let i = 0; i < operations.length; i++) {
             operations[i].ticketId = Number(ticket_id)
@@ -225,6 +229,7 @@
           }, 1500)
         } catch (error) {}
       }
+
       return {
         register,
         initName,
@@ -237,6 +242,7 @@
         operations,
       }
     },
+    methods: { getItemApi },
   })
 </script>
 <style lang="less" scoped>

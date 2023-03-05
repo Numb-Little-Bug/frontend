@@ -30,7 +30,7 @@ const operation_ticket: AppRouteModule = {
       component: () => import('/src/views/operation_ticket/template/index.vue'),
       meta: {
         title: t('routes.demo.operation_ticket.template'),
-        icon: 'mdi:paper-outline',
+        icon: 'fluent:xbox-console-20-regular',
       },
     },
   ],
