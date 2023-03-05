@@ -82,12 +82,12 @@
       async function newStep() {
         // console.log(_.values)
         let items: any = await getItemsApi(_.values.device)
-        // console.log(items)
+        //console.log(items)
         let options: any = []
         for (let item in items) {
           options.push({
-            label: items[item],
-            value: items[item],
+            label: items[item].name,
+            value: items[item].id,
           })
         }
         //console.log(options)
