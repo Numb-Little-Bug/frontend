@@ -152,6 +152,7 @@
         notice: _.values.safety_precautions,
         remark: _.values.notes,
         status: 0,
+        deviceTypeId: Number(_.values.device),
       }
       let operations: OperationParams[] = reactive([])
       async function getOperations() {
@@ -212,6 +213,7 @@
             notice: _.values.safety_precautions,
             remark: _.values.notes,
             status: 0,
+            deviceTypeId: Number(_.values.device),
           }
           await getOperations()
           const ticket_id = await addTicketApi(Ticket)
@@ -227,7 +229,13 @@
             })
             emit('next', Step2_values)
           }, 1500)
-        } catch (error) {}
+        } catch (error) {
+          await setProps({
+            submitButtonOptions: {
+              loading: false,
+            },
+          })
+        }
       }
 
       return {

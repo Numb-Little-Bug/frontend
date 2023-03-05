@@ -47,3 +47,10 @@ export function getItemApi(params: number, mode: ErrorMessageMode = 'modal') {
     { errorMessageMode: mode },
   )
 }
+
+export function getItemStatusApi(params: number, mode: ErrorMessageMode = 'modal') {
+  return defHttp.get<DeviceResultModel>(
+    { url: Api.Item + '/status/' + params },
+    { errorMessageMode: mode },
+  )
+}

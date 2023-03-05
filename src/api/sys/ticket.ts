@@ -3,7 +3,8 @@ import {
   AddTicketParams,
   TicketResultModel,
   OperationParams,
-  getTicketByIdResultModel, addOperationsParams,
+  getTicketByIdResultModel,
+  addOperationsParams,
 } from './model/ticketModel'
 import { ErrorMessageMode } from '/#/axios'
 
