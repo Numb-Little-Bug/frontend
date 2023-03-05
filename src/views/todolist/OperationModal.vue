@@ -3,6 +3,7 @@
     v-bind="$attrs"
     title="操作执行"
     @ok="handleOk"
+    @cancel="handleCancel"
     width="100%"
     wrap-class-name="full-modal"
     :okText="okText"
@@ -43,6 +44,8 @@
   import { ref } from 'vue'
   import { BasicModal } from '/@/components/Modal'
   import { Descriptions, DescriptionsItem, Timeline, TimelineItem } from 'ant-design-vue'
+  import { ChangeTicketStatusParams } from '/@/api/sys/model/ticketModel'
+  import { changeTicketStatusApi } from '/@/api/sys/ticket'
   const props = defineProps(['ticket', 'operations'])
   // 时间戳：1637244864707
   /* 时间戳转换为时间 */
@@ -63,7 +66,16 @@
   }, 1000)
   let okText = ref('完成')
   const handleOk = () => {
-    console.log('ok')
+    let changeTicketParams: ChangeTicketStatusParams = {
+      status: 2,
+    }
+    changeTicketStatusApi(props.ticket.id, changeTicketParams)
+  }
+  const handleCancel = () => {
+    let changeTicketParams: ChangeTicketStatusParams = {
+      status: 3,
+    }
+    changeTicketStatusApi(props.ticket.id, changeTicketParams)
   }
   const broadcastOperation = (text1: any, text2: any) => {
     window.speechSynthesis.speak(new window.SpeechSynthesisUtterance(text1))

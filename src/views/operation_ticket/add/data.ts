@@ -1,7 +1,7 @@
 import { FormSchema } from '/@/components/Form'
 import { getSiteApi } from '/@/api/sys/site'
 import { getSiteUserApi } from '/@/api/sys/user'
-import { getAllDeviceApi, getDeviceApi } from "/@/api/sys/device";
+import { getAllDeviceApi } from '/@/api/sys/device'
 
 export const step1Schemas: FormSchema[] = [
   {

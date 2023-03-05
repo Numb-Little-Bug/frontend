@@ -19,7 +19,11 @@ export interface AddTicketParams {
 
   status: 0
 
-  deviceTypeId: number
+  deviceTypeId: number | null
+}
+
+export interface ChangeTicketStatusParams {
+  status: number
 }
 
 export interface TicketResultModel {

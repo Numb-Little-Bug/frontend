@@ -25,10 +25,13 @@
         <br />
         <div v-if="!loading && operations.length !== 0">
           <strong style="font-size: 15px; margin-left: 10px"> 操作步骤</strong>
-          {{ props.activateTicket }}
           <Timeline style="margin-left: 10px">
             <br />
-            <TimelineItem v-for="operation in operations" :key="operation.id">
+            <TimelineItem
+              v-for="(operation, index) in operations"
+              :key="operation.id"
+              :color="operation_colors[index]"
+            >
               <div style="display: flex">
                 <div style="margin-right: auto"
                   >将 {{ operation.description }} {{ operation.type }}</div
@@ -40,9 +43,9 @@
             </TimelineItem>
           </Timeline>
         </div>
-        <!--        <Empty v-else style="margin-top: 50px" />-->
+        <Empty v-if="operations.length === 0" style="margin-top: 50px" />
         <div class="spinning-box">
-          <Spin size="large" :spinning="loading" tip="Loading..." />
+          <Spin size="large" :spinning="loading && operations.length !== 0" tip="Loading..." />
         </div>
       </Col>
     </Row>
@@ -50,7 +53,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, watch } from 'vue'
+import {reactive, ref, watch} from 'vue'
   import { BasicModal } from '/@/components/Modal'
   import { Row, Col, Tabs, TabPane, Timeline, TimelineItem, Empty, Spin } from 'ant-design-vue'
   import { getDeviceApi } from '/@/api/sys/device'
@@ -76,6 +79,19 @@
   }
   let time = ref('')
   let loading = ref(true)
+  let operation_colors: any = ref([])
+  const status_dict = {
+    投入: 'strap-in',
+    退出: 'strap-out',
+    右: 'switch-right',
+    左: 'switch-left',
+    中: 'switch-middle',
+    带电: 'charged',
+    断电: 'uncharged',
+    红色: 'light-red',
+    绿色: 'light-green',
+    熄灭: 'light-off',
+  }
   setInterval(() => {
     time.value = timestampToTime(new Date().getTime())
   }, 1000)
@@ -87,7 +103,7 @@
     const res = await getDeviceApi(props.activateTicket.deviceTypeId)
     console.log('sdf', res)
     let detectModel: DetectModel = {
-      source: 'http://127.0.0.1:8085/upload/test.mp4',
+      source: props.site.video1,
       device_type_conf: res,
     }
     try {
@@ -95,6 +111,57 @@
       console.log(res1)
       if (res1.length >= 0) {
         loading.value = false
+        operation_colors.value.splice(0, operation_colors.value.length)
+      }
+      if (res1.length > 1) {
+        for (let i = 0; i < props.operations.length; i++) {
+          if (props.operations[i].description.includes('charged_light')) {
+            if (res1[i + 1].charged_light === status_dict[props.operations[i].type]) {
+              operation_colors.value.push('green')
+            } else {
+              operation_colors.value.push('red')
+            }
+          } else if (props.operations[i].description.includes('light')) {
+            for (let j = 0; j < res1[i + 1].lights.length; j++) {
+              if (Object.keys(res1[i + 1].lights[j])[0] === props.operations[i].description) {
+                if (
+                  Object.values(res1[i + 1].lights[j])[0] === status_dict[props.operations[i].type]
+                ) {
+                  operation_colors.value.push('green')
+                } else {
+                  operation_colors.value.push('red')
+                }
+              }
+            }
+          } else if (props.operations[i].description.includes('strap')) {
+            for (let j = 0; j < res1[i + 1].straps.length; j++) {
+              if (Object.keys(res1[i + 1].straps[j])[0] === props.operations[i].description) {
+                if (
+                  Object.values(res1[i + 1].straps[j])[0] === status_dict[props.operations[i].type]
+                ) {
+                  operation_colors.value.push('green')
+                } else {
+                  operation_colors.value.push('red')
+                }
+              }
+            }
+          } else if (props.operations[i].description.includes('switch')) {
+            for (let j = 0; j < res1[i + 1].switches.length; j++) {
+              if (
+                Object.keys(res1[i + 1].switches[j])[0] === props.operations[i].description
+              ) {
+                if (
+                  Object.values(res1[i + 1].switches[j])[0] ===
+                  status_dict[props.operations[i].type]
+                ) {
+                  operation_colors.value.push('green')
+                } else {
+                  operation_colors.value.push('red')
+                }
+              }
+            }
+          }
+        }
       }
     } catch (error) {
       console.log(error)
