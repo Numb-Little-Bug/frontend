@@ -36,7 +36,7 @@ export function postItemApi(
   mode: ErrorMessageMode = 'modal',
 ) {
   return defHttp.post<DeviceResultModel>(
-    { url: Api.Item + device_id, params },
+    { url: Api.Item + ‘/’ + device_id, params },
     { errorMessageMode: mode },
   )
 }
