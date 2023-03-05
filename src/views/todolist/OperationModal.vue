@@ -3,6 +3,7 @@
     v-bind="$attrs"
     title="操作执行"
     @ok="handleOk"
+    @cancel="handleCancel"
     width="100%"
     wrap-class-name="full-modal"
     :okText="okText"
@@ -22,6 +23,13 @@
     </div>
     <Timeline>
       <TimelineItem v-for="operation in operations" :key="operation.id">
+        <a-button
+          preIcon="iconoir:sound-high"
+          iconSize="12"
+          shape="circle"
+          size="small"
+          @click="broadcastOperation(operation.description, operation.notice)"
+        />
         <div style="display: flex">
           <div style="margin-right: auto">{{ operation.description }}</div>
           <div style="float: right">{{ time }}</div>
@@ -36,6 +44,8 @@
   import { ref } from 'vue'
   import { BasicModal } from '/@/components/Modal'
   import { Descriptions, DescriptionsItem, Timeline, TimelineItem } from 'ant-design-vue'
+  import { ChangeTicketStatusParams } from '/@/api/sys/model/ticketModel'
+  import { changeTicketStatusApi } from '/@/api/sys/ticket'
   const props = defineProps(['ticket', 'operations'])
   // 时间戳：1637244864707
   /* 时间戳转换为时间 */
@@ -56,7 +66,21 @@
   }, 1000)
   let okText = ref('完成')
   const handleOk = () => {
-    console.log('ok')
+    let changeTicketParams: ChangeTicketStatusParams = {
+      status: 2,
+    }
+    changeTicketStatusApi(props.ticket.id, changeTicketParams)
+  }
+  const handleCancel = () => {
+    let changeTicketParams: ChangeTicketStatusParams = {
+      status: 3,
+    }
+    changeTicketStatusApi(props.ticket.id, changeTicketParams)
+  }
+  const broadcastOperation = (text1: any, text2: any) => {
+    window.speechSynthesis.speak(new window.SpeechSynthesisUtterance(text1))
+    window.speechSynthesis.speak(new window.SpeechSynthesisUtterance('注意事项'))
+    window.speechSynthesis.speak(new window.SpeechSynthesisUtterance(text2))
   }
 </script>
 
@@ -68,11 +92,13 @@
       padding-bottom: 0;
       margin: 0;
     }
+
     .ant-modal-content {
       display: flex;
       flex-direction: column;
       height: calc(100vh);
     }
+
     .ant-modal-body {
       flex: 1;
     }

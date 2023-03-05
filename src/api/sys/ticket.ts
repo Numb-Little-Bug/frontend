@@ -3,7 +3,9 @@ import {
   AddTicketParams,
   TicketResultModel,
   OperationParams,
-  getTicketByIdResultModel, addOperationsParams,
+  getTicketByIdResultModel,
+  addOperationsParams,
+  ChangeTicketStatusParams,
 } from './model/ticketModel'
 import { ErrorMessageMode } from '/#/axios'
 
@@ -56,6 +58,17 @@ export function getTicketByIdApi(params: number, mode: ErrorMessageMode = 'modal
 export function getOperationsByTicketIdApi(params: number, mode: ErrorMessageMode = 'modal') {
   return defHttp.get<addOperationsParams>(
     { url: Api.Operation + '/ticket/' + params },
+    { errorMessageMode: mode },
+  )
+}
+
+export function changeTicketStatusApi(
+  ticketId: number,
+  params: ChangeTicketStatusParams,
+  mode: ErrorMessageMode = 'modal',
+) {
+  return defHttp.put<TicketResultModel>(
+    { url: Api.Ticket + '/status/' + ticketId, params },
     { errorMessageMode: mode },
   )
 }

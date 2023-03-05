@@ -18,6 +18,12 @@ export interface AddTicketParams {
   remark: string
 
   status: 0
+
+  deviceTypeId: number | null
+}
+
+export interface ChangeTicketStatusParams {
+  status: number
 }
 
 export interface TicketResultModel {
@@ -30,6 +36,7 @@ export interface OperationParams {
   type: string
   description: string
   stepNumber: number
+  itemId: number | null
   ticketId: number | null
   notice: string
 }

@@ -1,127 +1,156 @@
 import { FormSchema } from '/@/components/Form'
+import { getSiteApi } from '/@/api/sys/site'
 
-export const schemas: FormSchema[] = [
+export const step1Schemas: FormSchema[] = [
   {
-    field: 'title',
+    field: 'name',
     component: 'Input',
-    label: '任务名称',
+    label: '设备名称',
+    colProps: {
+      span: 12,
+    },
+    required: true,
+  },
+  {
+    colProps: {
+      span: 12,
+    },
+    component: 'ApiSelect',
+    componentProps: {
+      api: () => getSiteApi(),
+      valueField: 'id',
+      labelField: 'name',
+      immediate: false,
+    },
+    // dynamicRules: () => {
+    //   return [
+    //     {
+    //       required: true,
+    //       message: '现场侧名不能为空',
+    //       trigger: ['blur'],
+    //     },
+    //   ]
+    // },
+    field: 'site_side_name',
+    label: '现场侧名',
+  },
+  {
+    field: 'item',
+    component: 'Divider',
+    label: '操作项目',
     colProps: {
       span: 24,
     },
-    required: true,
   },
   {
-    field: 'site_side_name',
-    component: 'Input',
-    label: '现场侧名',
-    colProps: {
-      span: 8,
-    },
-    required: true,
-  },
-  {
-    field: '[startTime, endTime]',
-    label: '起止日期',
-    component: 'RangePicker',
-    componentProps: {
-      format: 'YYYY-MM-DD HH:mm',
-      placeholder: ['开始时间', '结束时间'],
-      showTime: { format: 'HH:mm' },
-    },
-    colProps: {
-      span: 8,
-    },
-    required: true,
-  },
-  {
-    field: 'type',
+    field: 'light_line',
     component: 'Select',
-    label: '类别',
-    required: true,
+    label: '指示灯行数',
     colProps: {
       span: 8,
     },
     componentProps: {
       options: [
         {
-          label: '类别1',
-          value: '1',
+          label: '1',
+          value: 1,
         },
         {
-          label: '类别2',
-          value: '2',
+          label: '2',
+          value: 2,
         },
         {
-          label: '类别3',
-          value: '3',
+          label: '3',
+          value: 3,
         },
         {
-          label: '类别4',
-          value: '4',
+          label: '4',
+          value: 4,
         },
       ],
     },
   },
   {
-    field: 'name1',
-    component: 'Input',
-    label: '唱票人',
-    required: true,
+    field: 'strap_line',
+    component: 'Select',
+    label: '压板行数',
     colProps: {
       span: 8,
     },
+    componentProps: {
+      options: [
+        {
+          label: '1',
+          value: 1,
+        },
+        {
+          label: '2',
+          value: 2,
+        },
+        {
+          label: '3',
+          value: 3,
+        },
+        {
+          label: '4',
+          value: 4,
+        },
+      ],
+    },
   },
   {
-    field: 'operator_name',
-    component: 'Input',
-    label: '操作人',
-    required: true,
+    field: 'switch_line',
+    component: 'Select',
+    label: '开关行数',
     colProps: {
       span: 8,
     },
+    componentProps: {
+      options: [
+        {
+          label: '1',
+          value: 1,
+        },
+        {
+          label: '2',
+          value: 2,
+        },
+        {
+          label: '3',
+          value: 3,
+        },
+        {
+          label: '4',
+          value: 4,
+        },
+      ],
+    },
   },
   {
-    field: 'name2',
+    field: 'step0',
     component: 'Input',
-    label: '发布人',
-    required: true,
-    colProps: {
-      span: 8,
-    },
-  },
-  {
-    field: 'step',
-    component: 'InputTextArea',
-    label: '操作步骤',
-    componentProps: {
-      rows: 14,
-    },
+    label: '',
     colProps: {
       span: 24,
     },
-    required: true,
+    slot: 'slot',
   },
   {
-    field: 'safety precautions',
-    component: 'InputTextArea',
-    label: '安全事项',
-    componentProps: {
-      rows: 4,
-    },
-    colProps: {
-      span: 24,
-    },
-    required: true,
+    field: 'light_line_number',
+    label: 'light_line_number',
+    component: 'Divider',
+    show: false,
   },
   {
-    field: 'notes',
-    component: 'InputTextArea',
-    label: '备注',
-    componentProps: {
-      rows: 3,
-    },
-    colProps: {
-      span: 24,
-    },
+    field: 'strap_line_number',
+    label: 'strap_line_number',
+    component: 'Divider',
+    show: false,
+  },
+  {
+    field: 'switch_line_number',
+    label: 'switch_line_number',
+    component: 'Divider',
+    show: false,
   },
 ]
