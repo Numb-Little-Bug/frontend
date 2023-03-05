@@ -122,16 +122,44 @@
             componentProps: {
               options: [
                 {
-                  label: '开',
-                  value: '开',
+                  label: '投入',
+                  value: '投入',
                 },
                 {
-                  label: '关',
-                  value: '关',
+                  label: '退出',
+                  value: '退出',
                 },
                 {
-                  label: '调整',
-                  value: '调整',
+                  label: '右',
+                  value: '右',
+                },
+                {
+                  label: '左',
+                  value: '左',
+                },
+                {
+                  label: '中',
+                  value: '中',
+                },
+                {
+                  label: '带电',
+                  value: '带电',
+                },
+                {
+                  label: '断电',
+                  value: '断电',
+                },
+                {
+                  label: '红色',
+                  value: '红色',
+                },
+                {
+                  label: '绿色',
+                  value: '绿色',
+                },
+                {
+                  label: '熄灭',
+                  value: '熄灭',
                 },
               ],
             },

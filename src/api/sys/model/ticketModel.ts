@@ -18,6 +18,8 @@ export interface AddTicketParams {
   remark: string
 
   status: 0
+
+  deviceTypeId: number | null
 }
 
 export interface TicketResultModel {
@@ -33,6 +35,7 @@ export interface OperationParams {
   itemId: number | null
   ticketId: number | null
   notice: string
+
 }
 
 export interface addOperationsParams {
