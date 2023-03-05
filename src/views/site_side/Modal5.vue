@@ -23,7 +23,7 @@
       </Col>
       <Col :span="7">
         <br />
-        <div v-if="operations.length !== 0">
+        <div v-if="!loading && operations.length !== 0">
           <strong style="font-size: 15px; margin-left: 10px"> 操作步骤</strong>
           {{ props.activateTicket }}
           <Timeline style="margin-left: 10px">
@@ -40,18 +40,22 @@
             </TimelineItem>
           </Timeline>
         </div>
-        <Empty v-else style="margin-top: 50px" />
+        <!--        <Empty v-else style="margin-top: 50px" />-->
+        <div class="spinning-box">
+          <Spin size="large" :spinning="loading" tip="Loading..." />
+        </div>
       </Col>
     </Row>
   </BasicModal>
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue'
+  import { ref, watch } from 'vue'
   import { BasicModal } from '/@/components/Modal'
-  import { Row, Col, Tabs, TabPane, Timeline, TimelineItem, Empty } from 'ant-design-vue'
+  import { Row, Col, Tabs, TabPane, Timeline, TimelineItem, Empty, Spin } from 'ant-design-vue'
   import { getDeviceApi } from '/@/api/sys/device'
-  import { detectApi } from '/@/api/sys/detect'
+  import { detectApi, testApi } from '/@/api/sys/detect'
+  import { DetectModel, DetectResultModel } from '/@/api/sys/model/detectModel'
   import axios from 'axios'
   const props = defineProps(['site', 'activateTicket', 'operations'])
   let activeKey = ref('1')
@@ -71,18 +75,37 @@
     return Y + M + D + h + m + s
   }
   let time = ref('')
+  let loading = ref(true)
   setInterval(() => {
     time.value = timestampToTime(new Date().getTime())
   }, 1000)
   const getDetected = async (visible: boolean) => {
     if (!visible) {
+      loading.value = true
       return
     }
     const res = await getDeviceApi(props.activateTicket.deviceTypeId)
-    console.log(res)
-    const res2 = await detectApi()
-    console.log(res2)
+    console.log('sdf', res)
+    let detectModel: DetectModel = {
+      source: 'http://127.0.0.1:8085/upload/test.mp4',
+      device_type_conf: res,
+    }
+    try {
+      const res1 = await detectApi(detectModel)
+      console.log(res1)
+      if (res1.length >= 0) {
+        loading.value = false
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 </script>
 
-<style scoped></style>
+<style scoped>
+  .spinning-box {
+    text-align: center;
+    padding: 30px 50px;
+    margin-top: 50px;
+  }
+</style>

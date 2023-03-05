@@ -1,5 +1,6 @@
 export interface DetectModel {
-  device: string
+  source: string
+  device_type_conf: Object
 }
 
 export interface DetectResultModel {
